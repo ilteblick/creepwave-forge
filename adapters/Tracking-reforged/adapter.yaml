@@ -1,0 +1,54 @@
+name: Tracking-reforged
+type: project-adapter
+status: ready
+skillsPath: skills
+projectRoot:
+  strategy: marker-discovery
+  markers:
+    - AGENTS.md
+    - amtdl-cargo-tracking-reforged/package.json
+    - amtdl-cargo-tracking-reforged-front/package.json
+  backendPath: amtdl-cargo-tracking-reforged
+  frontendPath: amtdl-cargo-tracking-reforged-front
+baseSkillBindings:
+  context-router:
+    - project-context
+  business-analyst:
+    - project-context
+    - project-contracts
+  solution-architect:
+    - project-context
+    - project-architecture
+    - project-contracts
+  ui-ux-designer:
+    - project-context
+    - project-contracts
+  backend-engineer:
+    - project-architecture
+    - project-runtime
+    - project-contracts
+    - project-quality
+  frontend-engineer:
+    - project-context
+    - project-architecture
+    - project-runtime
+    - project-contracts
+    - project-quality
+  qa-engineer:
+    - project-context
+    - project-runtime
+    - project-contracts
+    - project-quality
+  bug-investigator:
+    - project-context
+    - project-architecture
+    - project-runtime
+    - project-contracts
+    - project-quality
+  code-reviewer:
+    - project-architecture
+    - project-contracts
+    - project-quality
+  handoff-writer:
+    - project-context
+    - project-quality

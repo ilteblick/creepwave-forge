@@ -1,0 +1,4 @@
+interface:
+  display_name: "Handoff Writer"
+  short_description: "Compress role output into clear next-role handoffs."
+  default_prompt: "Use this skill to convert completed or partial role output into a clear handoff with target role, confirmed facts, decisions, assumptions, risks, open questions, artifacts, and next action."

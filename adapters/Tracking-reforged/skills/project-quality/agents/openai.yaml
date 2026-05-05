@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracking Quality"
+  short_description: "Verification, review, release, and gotchas."
+  default_prompt: "Use $project-quality to verify Tracking-reforged changes and avoid known project gotchas."

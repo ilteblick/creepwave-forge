@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracking Runtime"
+  short_description: "Setup, env, commands, and local workflow."
+  default_prompt: "Use $project-runtime to run, configure, build, and verify Tracking-reforged locally."

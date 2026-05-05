@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracking Architecture"
+  short_description: "Backend and frontend architecture rules."
+  default_prompt: "Use $project-architecture to make Tracking-reforged code changes that respect module boundaries and local conventions."

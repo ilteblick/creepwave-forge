@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracking Context"
+  short_description: "Project domain and repository map."
+  default_prompt: "Use $project-context to understand Tracking-reforged domain, users, routes, and repository layout."

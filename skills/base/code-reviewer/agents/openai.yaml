@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Reviewer"
+  short_description: "Review code for defects, regressions, contracts, and missing tests."
+  default_prompt: "Use this skill to review code, diffs, PRs, or implementation plans with findings first, severity, evidence, impact, suggested fixes, test gaps, and residual risk."

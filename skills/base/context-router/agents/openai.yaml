@@ -1,0 +1,4 @@
+interface:
+  display_name: "Context Router"
+  short_description: "Routes project-context tasks to the right base role skill."
+  default_prompt: "Use this skill with a user task and prepared project context to select the narrowest sufficient base role skill and produce a concise handoff."

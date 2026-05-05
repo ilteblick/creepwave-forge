@@ -1,0 +1,4 @@
+interface:
+  display_name: "Solution Architect"
+  short_description: "Design cross-layer changes and split role-ready work."
+  default_prompt: "Use this skill to produce a technical design for a cross-layer software change, including contracts/data impacts, risks, test strategy, rollout notes, and role-ready work split."

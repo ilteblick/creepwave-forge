@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test Skill"
+  short_description: "Temporary adapter skill placeholder."
+  default_prompt: "Use this placeholder skill to test that the project adapter is connected."

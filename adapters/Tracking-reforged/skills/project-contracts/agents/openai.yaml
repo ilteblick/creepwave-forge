@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracking Contracts"
+  short_description: "API, DTO, data, auth, and adapter contracts."
+  default_prompt: "Use $project-contracts to work with Tracking-reforged API, DTO, data model, auth, and tracking adapter contracts."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI/UX Designer"
+  short_description: "Design UX flows, UI states, accessibility, and frontend handoff."
+  default_prompt: "Use this skill to produce a UI/UX design handoff with target screens, flow, structure, states, interactions, content, data assumptions, accessibility notes, design-system guidance, open questions, and frontend handoff."
