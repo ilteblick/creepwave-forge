@@ -26,7 +26,10 @@ The validator checks base skill structure, agent config presence, role links, ex
 
 ## Presentation
 
-See `docs/skill-system-presentation.md` for a presentation-style overview with skill relationship diagrams, invocation flows, and prompt-to-chain examples.
+See `docs/skill-system-presentation.md` for language variants of the presentation-style overview with skill relationship diagrams, invocation flows, and prompt-to-chain examples:
+
+- Russian: `docs/skill-system-presentation.ru.md`
+- English: `docs/skill-system-presentation.en.md`
 
 ## Goal
 
