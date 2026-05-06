@@ -9,6 +9,7 @@ export async function runForge({
   root = process.cwd(),
   userPrompt,
   adapterName = null,
+  projectRoot = null,
   initialRole = 'context-router',
   maxSteps = 12,
   invokeRole,
@@ -23,11 +24,11 @@ export async function runForge({
 
   const [registry, projectContext, contracts] = await Promise.all([
     loadSkillRegistry({ root }),
-    loadProjectContext({ root, adapterName }),
+    loadProjectContext({ root, adapterName, projectRoot }),
     loadRuntimeContracts({ root })
   ]);
 
-  const run = await store.createRun({ userPrompt, adapterName, initialRole });
+  const run = await store.createRun({ userPrompt, adapterName, projectRoot, initialRole });
 
   for (let index = 1; index <= maxSteps; index += 1) {
     run.step_index = index;
