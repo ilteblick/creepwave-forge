@@ -46,6 +46,27 @@ The runtime does not call an LLM directly yet. It expects an `invokeRole` functi
 
 For broad feature prompts, the expected behavior is to route through `context-router`, invoke one selected role, validate its step output, and stop when a role returns `needs_clarification`.
 
+## Codex Plugin
+
+`plugins/creepwave-forge/` contains a local Codex plugin with an MCP server:
+
+- `forge_run`: run a prompt through the Forge runtime.
+- `forge_status`: inspect a persisted run by run id.
+
+The plugin defaults to:
+
+- adapter: `Tracking-reforged`
+- project path: `C:\projects\tracking-reforged`
+
+After registering the local marketplace in Codex, restart or reload Codex so the new plugin and MCP tools are discovered. Then use a chat request like:
+
+```text
+Run Forge for Tracking-reforged:
+Сделай прогноз погоды для основных городов России...
+```
+
+The current plugin provider is deterministic: it enforces step isolation and stops broad product prompts at BA clarification, but it does not yet call a real LLM provider for every role.
+
 ## Presentation
 
 See `docs/skill-system-presentation.md` for language variants of the presentation-style overview with skill relationship diagrams, invocation flows, and prompt-to-chain examples:

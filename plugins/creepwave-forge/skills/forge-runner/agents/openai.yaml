@@ -1,0 +1,4 @@
+interface:
+  display_name: Forge Runner
+  description: Run Creepwave Forge step-by-step orchestration through local MCP tools.
+default_prompt: Run this task through Creepwave Forge.

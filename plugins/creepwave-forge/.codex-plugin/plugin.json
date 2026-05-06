@@ -1,0 +1,42 @@
+{
+  "name": "creepwave-forge",
+  "version": "0.1.0",
+  "description": "Run Creepwave Forge step-by-step orchestration from Codex using local MCP tools.",
+  "author": {
+    "name": "Creepwave Forge"
+  },
+  "homepage": "https://github.com/ilteblick/creepwave-forge",
+  "repository": "https://github.com/ilteblick/creepwave-forge",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "mcp",
+    "orchestration",
+    "skills",
+    "handoff"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Creepwave Forge",
+    "shortDescription": "Run role-based Forge workflows step by step",
+    "longDescription": "Creepwave Forge adds local tools for running role-based task orchestration from Codex. It routes prompts through one active skill at a time, validates runtime step output and handoff contracts, and can use the Tracking-reforged project context by default.",
+    "developerName": "Creepwave Forge",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/ilteblick/creepwave-forge",
+    "privacyPolicyURL": "https://github.com/ilteblick/creepwave-forge",
+    "termsOfServiceURL": "https://github.com/ilteblick/creepwave-forge",
+    "defaultPrompt": [
+      "Run Forge for this Tracking-reforged task"
+    ],
+    "brandColor": "#2563EB",
+    "composerIcon": "./assets/forge.svg",
+    "logo": "./assets/forge.svg",
+    "screenshots": []
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "creepwave-forge": {
+      "command": "node",
+      "args": [
+        "./scripts/forge-mcp-server.mjs"
+      ],
+      "env": {
+        "TRACKING_REFORGED_PROJECT_ROOT": "C:\\projects\\tracking-reforged"
+      }
+    }
+  }
+}

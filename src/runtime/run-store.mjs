@@ -7,13 +7,14 @@ export class RunStore {
     this.runsDir = runsDir;
   }
 
-  async createRun({ userPrompt, adapterName = null, initialRole = 'context-router' }) {
+  async createRun({ userPrompt, adapterName = null, projectRoot = null, initialRole = 'context-router' }) {
     const runId = createRunId();
     const run = {
       run_id: runId,
       status: 'running',
       user_prompt: userPrompt,
       adapter_name: adapterName,
+      project_root: projectRoot,
       current_role: initialRole,
       step_index: 0,
       previous_handoff: null,
