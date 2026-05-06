@@ -40,3 +40,22 @@ When one role passes work to another role, it should preserve the same fields as
 - Keep `next_action` specific enough that the target role can act without redoing discovery.
 - Include empty arrays when a field has no values. Do not omit required fields.
 - Use project adapters as the source of truth for stack, commands, domain terms, and local constraints when available.
+
+## Runtime Step Output
+
+The runtime orchestrator wraps each role artifact and handoff in `contracts/step-output.schema.json`.
+
+Required fields:
+
+- `role`: active role executed for this step.
+- `status`: one of `needs_clarification`, `handoff_ready`, `blocked`, or `complete`.
+- `artifact_type`: artifact category produced by the active role.
+- `artifact`: role output as a non-empty string.
+- `handoff`: role-to-role transfer compatible with `contracts/handoff.schema.json`.
+
+Runtime rules:
+
+- The step `role` must match the active role selected by the runner.
+- The runner should stop on `needs_clarification`, `blocked`, or `complete`.
+- The runner should continue only from `handoff_ready`, after validating that the requested transition is allowed.
+- The runner should pass only the active role's `SKILL.md` to the model for the current step.

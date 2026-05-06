@@ -22,7 +22,29 @@ Run the base skill contract checks with:
 npm test
 ```
 
-The validator checks base skill structure, agent config presence, role links, expected artifacts, required role flows, and JSON handoff examples against the shared contract.
+The validators check base skill structure, agent config presence, role links, expected artifacts, required role flows, JSON handoff examples, and the runtime step orchestration contract.
+
+Run validators separately with:
+
+```sh
+npm run validate:skills
+npm run validate:runtime
+```
+
+## Runtime Orchestrator
+
+`src/runtime/` contains the first executable orchestration layer for step-by-step runs:
+
+- `skill-registry.mjs` loads one active role skill at a time.
+- `prompt-builder.mjs` builds a step prompt with only the active `SKILL.md`, project context, original prompt, and incoming handoff.
+- `step-validator.mjs` validates `contracts/step-output.schema.json` and `contracts/handoff.schema.json`.
+- `transition-policy.mjs` enforces allowed role-to-role transitions.
+- `run-store.mjs` persists run state and step outputs under `runs/`.
+- `forge-runner.mjs` executes the loop through an injected `invokeRole` callback.
+
+The runtime does not call an LLM directly yet. It expects an `invokeRole` function, so tests can prove orchestration behavior before a real model provider is connected.
+
+For broad feature prompts, the expected behavior is to route through `context-router`, invoke one selected role, validate its step output, and stop when a role returns `needs_clarification`.
 
 ## Presentation
 

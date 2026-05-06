@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests/validate-skills.mjs",
-    "validate:skills": "node tests/validate-skills.mjs"
+    "test": "node tests/validate-skills.mjs && node tests/validate-runtime.mjs",
+    "validate:skills": "node tests/validate-skills.mjs",
+    "validate:runtime": "node tests/validate-runtime.mjs"
   }
 }
