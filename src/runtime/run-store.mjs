@@ -50,6 +50,23 @@ export class RunStore {
     return files.filter((file) => file.endsWith('.json')).sort();
   }
 
+  async loadStep(runId, fileName) {
+    const stepPath = path.join(this.getRunDir(runId), 'steps', fileName);
+    return JSON.parse(await readFile(stepPath, 'utf8'));
+  }
+
+  async listStepOutputs(runId) {
+    const files = await this.listSteps(runId);
+    const outputs = [];
+    for (const file of files) {
+      outputs.push({
+        file,
+        output: await this.loadStep(runId, file)
+      });
+    }
+    return outputs;
+  }
+
   getRunDir(runId) {
     return path.join(this.runsDir, runId);
   }

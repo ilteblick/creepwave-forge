@@ -47,7 +47,7 @@ async function testMcpServer() {
 
     server.stdin.write(`${JSON.stringify({ jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} })}\n`);
     await waitForResponses(responses, 2);
-    assert.deepEqual(responses[1].result.tools.map((tool) => tool.name), ['forge_run', 'forge_status']);
+    assert.deepEqual(responses[1].result.tools.map((tool) => tool.name), ['forge_run', 'forge_continue', 'forge_status']);
 
     server.stdin.write(`${JSON.stringify({
       jsonrpc: '2.0',
@@ -56,18 +56,53 @@ async function testMcpServer() {
       params: {
         name: 'forge_run',
         arguments: {
-          prompt: 'Сделай прогноз погоды для основных городов России. На карте покажи текущий прогноз. Хочу видеть историю погоды за 10 дней. Хочу хранить всё у себя в БД.',
+          prompt: 'Make a weather forecast for the main cities of Russia. Show the current forecast as a visual element on a map. Show 10 days of weather history on the map. Store everything in my own database.',
           projectPath: 'C:\\projects\\tracking-reforged',
-          adapterName: 'Tracking-reforged',
-          maxSteps: 4
+          adapterName: 'Tracking-reforged'
         }
       }
     })}\n`);
     await waitForResponses(responses, 3);
-    const payload = JSON.parse(responses[2].result.content[0].text);
-    assert.equal(payload.status, 'needs_clarification');
-    assert.deepEqual(payload.invokedRoles, ['context-router', 'business-analyst']);
-    assert.ok(payload.handoff.open_questions.length >= 5);
+    const firstStep = responses[2].result.content[0].text;
+    assert.match(firstStep, /# Forge Run Started/);
+    assert.match(firstStep, /Run Status: paused/);
+    assert.match(firstStep, /## Step 1: context-router/);
+    assert.match(firstStep, /"target_role": "business-analyst"/);
+    assert.match(firstStep, /Next tool: forge_continue/);
+    const runId = firstStep.match(/Run ID: ([^\r\n]+)/)?.[1];
+    assert.ok(runId);
+
+    server.stdin.write(`${JSON.stringify({
+      jsonrpc: '2.0',
+      id: 4,
+      method: 'tools/call',
+      params: {
+        name: 'forge_continue',
+        arguments: { runId }
+      }
+    })}\n`);
+    await waitForResponses(responses, 4);
+    const secondStep = responses[3].result.content[0].text;
+    assert.match(secondStep, /# Forge Step Continued/);
+    assert.match(secondStep, /Run Status: needs_clarification/);
+    assert.match(secondStep, /## Step 2: business-analyst/);
+    assert.match(secondStep, /### Handoff Contract/);
+    assert.match(secondStep, /Which cities count as the main cities of Russia/);
+
+    server.stdin.write(`${JSON.stringify({
+      jsonrpc: '2.0',
+      id: 5,
+      method: 'tools/call',
+      params: {
+        name: 'forge_status',
+        arguments: { runId }
+      }
+    })}\n`);
+    await waitForResponses(responses, 5);
+    const status = responses[4].result.content[0].text;
+    assert.match(status, /# Forge Run Status/);
+    assert.match(status, /001-context-router\.json/);
+    assert.match(status, /002-business-analyst\.json/);
   } finally {
     server.kill();
   }
@@ -88,4 +123,4 @@ async function waitForResponses(responses, count) {
 await testPluginManifest();
 await testMcpServer();
 
-console.log('Plugin validation passed: manifest, marketplace, and MCP forge_run tool.');
+console.log('Plugin validation passed: manifest, marketplace, visible steps, and MCP forge_continue tool.');

@@ -106,7 +106,7 @@ function buildBusinessQuestions(prompt) {
 }
 
 function isProductShaped(prompt) {
-  return /(сделай|хочу|need|add|create|build|добавь|реализуй)/i.test(prompt) && touchesBackend(prompt.toLowerCase()) && touchesUi(prompt.toLowerCase());
+  return /(сделай|хочу|need|make|add|create|build|добавь|реализуй)/i.test(prompt) && touchesBackend(prompt.toLowerCase()) && touchesUi(prompt.toLowerCase());
 }
 
 function touchesUi(normalized) {

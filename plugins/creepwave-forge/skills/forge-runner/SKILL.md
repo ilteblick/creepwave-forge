@@ -16,8 +16,9 @@ Use this skill when the user asks to start Forge, run a prompt through Forge, in
 1. Call the `forge_run` MCP tool with the user's task as `prompt`.
 2. Use `projectPath` when the user names a concrete workspace. Default Tracking-reforged project path is `C:\projects\tracking-reforged`.
 3. Use `adapterName` when the project adapter is known. Default is `Tracking-reforged`.
-4. Show the returned status, run id, invoked roles, and blocking questions or next action.
-5. Call `forge_status` when the user asks about an existing run id.
+4. Show the returned step, active skill, skill decision, handoff contract, and next tool.
+5. Call `forge_continue` with the returned run id only after the user wants the next step.
+6. Call `forge_status` when the user asks about an existing run id.
 
 ## Expected Output
 
@@ -25,13 +26,16 @@ Report:
 
 - `Run ID`
 - `Status`
-- `Roles Invoked`
-- `Current/Terminal Role`
-- `Blocking Questions` or `Next Action`
+- `Step`
+- `Active Skill`
+- `Skill Decision / Artifact`
+- `Handoff Contract`
+- `Next Tool`
 
 ## Gotchas
 
 - Do not run `npm` manually when the plugin tools are available.
 - The current MCP tool uses the deterministic Forge provider unless a real model provider is connected later.
 - If the run stops at `needs_clarification`, ask the user for those answers before continuing.
+- Do not skip `forge_continue` by asking `forge_run` to process all roles; visible handoff is the point of this plugin.
 - Do not load all downstream skills into the chat context; the runtime exists to keep active role prompts isolated.

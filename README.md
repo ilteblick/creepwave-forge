@@ -50,7 +50,8 @@ For broad feature prompts, the expected behavior is to route through `context-ro
 
 `plugins/creepwave-forge/` contains a local Codex plugin with an MCP server:
 
-- `forge_run`: run a prompt through the Forge runtime.
+- `forge_run`: start a run and execute exactly one visible step.
+- `forge_continue`: execute exactly one next step for a paused run.
 - `forge_status`: inspect a persisted run by run id.
 
 The plugin defaults to:
@@ -66,6 +67,8 @@ Run Forge for Tracking-reforged:
 ```
 
 The current plugin provider is deterministic: it enforces step isolation and stops broad product prompts at BA clarification, but it does not yet call a real LLM provider for every role.
+
+For interactive use, `forge_run` executes only the first step and returns the active skill, its decision artifact, the full handoff contract, and the next tool to call. Use `forge_continue` with the returned run id to advance one role at a time.
 
 ## Presentation
 
