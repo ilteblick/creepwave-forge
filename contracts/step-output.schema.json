@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://creepwave-forge.local/contracts/step-output.schema.json",
+  "title": "Creepwave Forge Runtime Step Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "role",
+    "status",
+    "artifact_type",
+    "artifact",
+    "handoff"
+  ],
+  "properties": {
+    "role": {
+      "$ref": "#/$defs/role"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "needs_clarification",
+        "handoff_ready",
+        "blocked",
+        "complete"
+      ]
+    },
+    "artifact_type": {
+      "type": "string",
+      "enum": [
+        "requirements",
+        "technical-design",
+        "ui-ux-handoff",
+        "backend-summary",
+        "frontend-summary",
+        "qa-plan",
+        "qa-validation",
+        "bug-investigation",
+        "review-findings",
+        "role-handoff",
+        "release-notes",
+        "selected-role",
+        "clarification",
+        "other"
+      ]
+    },
+    "artifact": {
+      "type": "string",
+      "minLength": 1
+    },
+    "handoff": {
+      "$ref": "handoff.schema.json"
+    }
+  },
+  "$defs": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "business-analyst",
+        "ui-ux-designer",
+        "solution-architect",
+        "backend-engineer",
+        "frontend-engineer",
+        "qa-engineer",
+        "bug-investigator",
+        "code-reviewer",
+        "handoff-writer",
+        "context-router"
+      ]
+    }
+  }
+}
