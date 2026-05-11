@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "creepwave-forge": {
+      "command": "node",
+      "cwd": ".",
+      "args": [
+        "./scripts/forge-mcp-server.mjs"
+      ]
+    }
+  }
+}

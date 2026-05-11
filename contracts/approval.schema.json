@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://creepwave-forge.local/contracts/approval.schema.json",
+  "title": "Creepwave Forge Human Approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "step_index",
+    "action",
+    "created_at"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "step_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "changes_requested"
+      ]
+    },
+    "note": {
+      "type": "string"
+    },
+    "instructions": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

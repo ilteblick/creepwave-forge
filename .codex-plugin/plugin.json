@@ -1,0 +1,35 @@
+{
+  "name": "creepwave-forge",
+  "version": "0.1.0",
+  "description": "Run Creepwave Forge step-by-step orchestration from Codex using local MCP tools.",
+  "author": {
+    "name": "Creepwave Forge"
+  },
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "mcp",
+    "orchestration",
+    "skills",
+    "handoff"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Creepwave Forge",
+    "shortDescription": "Run role-based Forge workflows step by step",
+    "longDescription": "Creepwave Forge routes Codex tasks through one active role at a time, validates runtime handoff contracts, persists role artifacts on a run branch, and requires human approval before each transition.",
+    "developerName": "Creepwave Forge",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Run Forge for this project task"
+    ],
+    "brandColor": "#2563EB",
+    "screenshots": []
+  }
+}

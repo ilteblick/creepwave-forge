@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bug Investigator"
+  short_description: "Investigate bugs with reproduction, evidence, cause, and coverage."
+  default_prompt: "Use this skill to investigate bugs, failing tests, logs, stack traces, screenshots, flaky behavior, or regressions, producing reproduction status, evidence, root cause confidence, fix direction, regression coverage, and next-role handoff."

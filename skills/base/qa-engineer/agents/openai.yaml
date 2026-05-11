@@ -1,0 +1,4 @@
+interface:
+  display_name: "QA Engineer"
+  short_description: "Create QA plans, behavior cases, regression checks, and coverage notes."
+  default_prompt: "Use this skill to create QA plans or validation summaries from requirements, implementation details, contracts, risks, and defects, including test cases, test data, automation candidates, blockers, and residual risks."

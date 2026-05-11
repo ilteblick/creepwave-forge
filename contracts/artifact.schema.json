@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://creepwave-forge.local/contracts/artifact.schema.json",
+  "title": "Creepwave Forge Artifact Reference",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "type",
+    "summary"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "$ref": "#/$defs/artifactType"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metadata_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_role": {
+      "$ref": "#/$defs/role"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "backend-engineer",
+        "bug-investigator",
+        "business-analyst",
+        "code-reviewer",
+        "context-router",
+        "frontend-engineer",
+        "handoff-writer",
+        "qa-engineer",
+        "solution-architect",
+        "ui-ux-designer"
+      ]
+    },
+    "artifactType": {
+      "type": "string",
+      "enum": [
+        "requirements",
+        "technical-design",
+        "ui-ux-handoff",
+        "backend-summary",
+        "frontend-summary",
+        "qa-plan",
+        "qa-validation",
+        "bug-investigation",
+        "review-findings",
+        "role-handoff",
+        "release-notes",
+        "selected-role",
+        "clarification",
+        "revision-request",
+        "approval",
+        "context",
+        "other"
+      ]
+    }
+  }
+}

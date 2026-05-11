@@ -1,0 +1,12 @@
+{
+  "name": "creepwave-forge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Role and adapter library for Codex workflows.",
+  "scripts": {
+    "test": "node --test",
+    "test:contracts": "node --test tests/contract-validator.test.mjs",
+    "test:runtime": "node --test tests/*runtime*.test.mjs tests/artifact-store.test.mjs tests/forge-runner.test.mjs tests/mcp-server.test.mjs tests/project-context-loader.test.mjs tests/prompt-builder.test.mjs tests/role-context-selector.test.mjs tests/run-store.test.mjs tests/transition-policy.test.mjs"
+  }
+}

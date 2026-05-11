@@ -1,0 +1,4 @@
+interface:
+  display_name: "Business Analyst"
+  short_description: "Requirements analysis and BA handoff support."
+  default_prompt: "Use this skill to clarify requirements, business rules, acceptance criteria, and open questions."

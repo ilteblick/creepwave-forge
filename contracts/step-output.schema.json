@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://creepwave-forge.local/contracts/step-output.schema.json",
+  "title": "Creepwave Forge Runtime Step Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "role",
+    "status",
+    "artifact_type",
+    "artifact",
+    "transition",
+    "handoff"
+  ],
+  "properties": {
+    "role": {
+      "$ref": "#/$defs/role"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "needs_clarification",
+        "handoff_ready",
+        "blocked",
+        "complete"
+      ]
+    },
+    "artifact_type": {
+      "$ref": "#/$defs/artifactType"
+    },
+    "artifact": {
+      "type": "string",
+      "minLength": 1
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "handoff",
+            "clarification_request",
+            "consultation_request",
+            "consultation_response",
+            "complete",
+            "blocked"
+          ]
+        },
+        "target_role": {
+          "$ref": "#/$defs/role"
+        },
+        "return_role": {
+          "$ref": "#/$defs/role"
+        },
+        "questions": {
+          "$ref": "#/$defs/stringList"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "handoff": {
+      "$ref": "handoff.schema.json"
+    }
+  },
+  "$defs": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "backend-engineer",
+        "bug-investigator",
+        "business-analyst",
+        "code-reviewer",
+        "context-router",
+        "frontend-engineer",
+        "handoff-writer",
+        "qa-engineer",
+        "solution-architect",
+        "ui-ux-designer"
+      ]
+    },
+    "artifactType": {
+      "type": "string",
+      "enum": [
+        "requirements",
+        "technical-design",
+        "ui-ux-handoff",
+        "backend-summary",
+        "frontend-summary",
+        "qa-plan",
+        "qa-validation",
+        "bug-investigation",
+        "review-findings",
+        "role-handoff",
+        "release-notes",
+        "selected-role",
+        "clarification",
+        "revision-request",
+        "approval",
+        "context",
+        "other"
+      ]
+    },
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Engineer"
+  short_description: "Implement frontend UI, API integration, states, and tests."
+  default_prompt: "Use this skill to implement frontend changes with existing project patterns, cover UI states and API assumptions, add relevant tests, and produce a frontend handoff summary."

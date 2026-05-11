@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://creepwave-forge.local/contracts/run-state.schema.json",
+  "title": "Creepwave Forge Run State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "status",
+    "user_prompt",
+    "project_root",
+    "current_role",
+    "role_stack",
+    "step_index",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "created",
+        "awaiting_role_output",
+        "awaiting_role_acceptance",
+        "awaiting_approval",
+        "needs_clarification",
+        "revision_requested",
+        "paused",
+        "blocked",
+        "complete"
+      ]
+    },
+    "user_prompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "current_role": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/role"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "role_stack": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/role"
+      }
+    },
+    "step_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "pending_step_path": {
+      "type": "string"
+    },
+    "previous_handoff_path": {
+      "type": "string"
+    },
+    "previous_transition": {
+      "type": "object"
+    },
+    "context_snapshot": {
+      "type": "string"
+    },
+    "task_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "task_id",
+        "source_url"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_url": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "tracker_sync": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "updated_at"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "synced",
+            "failed",
+            "skipped"
+          ]
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "applied_labels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "error": {
+          "type": "string",
+          "minLength": 1
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "backend-engineer",
+        "bug-investigator",
+        "business-analyst",
+        "code-reviewer",
+        "context-router",
+        "frontend-engineer",
+        "handoff-writer",
+        "qa-engineer",
+        "solution-architect",
+        "ui-ux-designer"
+      ]
+    }
+  }
+}

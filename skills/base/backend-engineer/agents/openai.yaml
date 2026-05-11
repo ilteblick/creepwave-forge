@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backend Engineer"
+  short_description: "Implement backend APIs, data changes, permissions, and tests."
+  default_prompt: "Use this skill to implement backend changes with existing project patterns, document contracts and data impacts, add relevant tests, and produce a backend handoff summary."
