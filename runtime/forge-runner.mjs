@@ -6,10 +6,8 @@ import { buildRolePacket } from './core/prompt-builder.mjs';
 import { loadSkillRegistry } from './core/skill-registry.mjs';
 import { validateStepOutput } from './core/step-validator.mjs';
 import { assertTransitionAllowed } from './core/transition-policy.mjs';
-import { fetchTaskFromSource } from './tasks/task-source-client.mjs';
-import { preflightTaskLabelSync, syncTaskLabels } from './tasks/task-label-sync.mjs';
-import { buildTaskPrompt } from './tasks/task-prompt-builder.mjs';
 import { buildStatus } from './runner/status.mjs';
+import { prepareTaskRun, syncLabelsForRun } from './runner/task-run.mjs';
 import {
   commitRunState,
   createRunBranch,
@@ -69,21 +67,19 @@ export async function startRunFromTask({
   fetchImpl = globalThis.fetch,
   store = storeForProject(projectPath)
 } = {}) {
-  const sourceTask = await fetchTaskFromSource({ projectPath, taskId, fetchImpl });
-  assertForgeTaskLabel(sourceTask);
-  await preflightTaskLabelSync({ projectPath, taskId: sourceTask.id ?? taskId, fetchImpl });
+  const preparedTask = await prepareTaskRun({ projectPath, taskId, fetchImpl });
   const result = await startRun({
     projectPath,
-    userPrompt: buildTaskPrompt(sourceTask),
-    branchSlug: taskBranchSlug(sourceTask),
-    taskSource: taskSourceMetadata(sourceTask),
+    userPrompt: preparedTask.userPrompt,
+    branchSlug: preparedTask.branchSlug,
+    taskSource: preparedTask.taskSource,
     fetchImpl,
     store
   });
 
   return {
     ...result,
-    sourceTask
+    sourceTask: preparedTask.sourceTask
   };
 }
 
@@ -588,74 +584,9 @@ async function loadTextArtifacts({ run, store, paths }) {
   return artifacts;
 }
 
-async function syncLabelsForRun({ projectPath, run, fetchImpl, store }) {
-  try {
-    const result = await syncTaskLabels({ projectPath, run, fetchImpl });
-    if (run.task_source) {
-      run.tracker_sync = {
-        status: result.skipped ? 'skipped' : 'synced',
-        updated_at: new Date().toISOString(),
-        ...(result.skipped ? { reason: result.reason } : {}),
-        ...(!result.skipped ? {
-          source: result.source,
-          task_id: result.task_id,
-          applied_labels: result.appliedLabels
-        } : {})
-      };
-      await store?.saveRun(run);
-    }
-    return result;
-  } catch (error) {
-    if (!run.task_source) {
-      throw error;
-    }
-
-    const failure = {
-      skipped: false,
-      failed: true,
-      retryable: true,
-      source: run.task_source.type,
-      task_id: run.task_source.task_id,
-      error: error.message
-    };
-    run.tracker_sync = {
-      status: 'failed',
-      retryable: true,
-      source: failure.source,
-      task_id: failure.task_id,
-      error: failure.error,
-      updated_at: new Date().toISOString()
-    };
-    await store?.saveRun(run);
-    return failure;
-  }
-}
-
 function clearPendingApproval(run) {
   delete run.pending_step_path;
   delete run.pending_handoff_path;
-}
-
-function taskSourceMetadata(sourceTask) {
-  return {
-    type: sourceTask.source?.type ?? 'unknown',
-    task_id: String(sourceTask.id ?? ''),
-    ...(sourceTask.source?.task_url !== undefined ? { task_url: sourceTask.source.task_url } : {}),
-    source_url: sourceTask.source?.url ?? ''
-  };
-}
-
-function taskBranchSlug(sourceTask) {
-  return `task-${sourceTask?.id ?? 'unknown'}-${sourceTask?.title ?? ''}`;
-}
-
-function assertForgeTaskLabel(sourceTask) {
-  if (Array.isArray(sourceTask?.labels) && sourceTask.labels.includes('forge')) {
-    return;
-  }
-
-  const taskLabel = sourceTask?.id ? ` ${sourceTask.id}` : '';
-  throw new Error(`Tracker task${taskLabel} is not marked for Forge. Add the exact "forge" label before starting forge_run_task.`);
 }
 
 function storeForProject(projectPath) {
