@@ -64,11 +64,11 @@ Tighten edge cases and remove obsolete guidance.
 
 - [x] Task 4.1: Review `runtime/forge-runner.mjs` for duplicate save/readme/manifest/sync/commit blocks and keep the smallest clear helper API. <!-- sha:d14c1b7 -->
 - [x] Task 4.2: Review `README.md` and existing docs under `docs/plan/approve-commit-mvp_20260510/` for wording that says request changes and clarification answers are local by default; update only active public docs, leaving historical specs intact. <!-- sha:31cc555 -->
-- [ ] Task 4.3: Run full tests from `package.json` and fix any contract or runtime regressions.
+- [x] Task 4.3: Run full tests from `package.json` and fix any contract or runtime regressions. <!-- sha:afd7031 -->
 
 ### Verification
 
-- [ ] `npm.cmd test`
+- [x] `npm.cmd test`
 
 ## Final Verification
 
