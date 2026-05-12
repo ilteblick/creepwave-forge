@@ -33,7 +33,7 @@ Reduce `runtime/forge-runner.mjs` by extracting internal workflow slices while k
 
 ### Tasks
 
-- [~] Task 2.1: Create `runtime/runner/persistence.mjs` for internal helpers currently in `runtime/forge-runner.mjs`: `refreshRunReadme`, `refreshActiveRunManifest`, `createRunBranch`, `commitRunState`, `persistTransferState`, and `runStateCommitPaths`.
+- [x] Task 2.1: Create `runtime/runner/persistence.mjs` for internal helpers currently in `runtime/forge-runner.mjs`: `refreshRunReadme`, `refreshActiveRunManifest`, `createRunBranch`, `commitRunState`, `persistTransferState`, and `runStateCommitPaths`. <!-- sha:4b66026 -->
 - [ ] Task 2.2: Create `runtime/runner/status.mjs` for `buildStatus`, `nextAllowedActions`, and status-related helper logic, then update `runtime/forge-runner.mjs` to delegate `getStatus` without changing the returned object shape.
 - [ ] Task 2.3: Create `runtime/runner/task-run.mjs` for task-backed helpers currently in `runtime/forge-runner.mjs`: `taskSourceMetadata`, `taskBranchSlug`, `assertForgeTaskLabel`, `syncLabelsForRun`, and the internal flow used by `startRunFromTask` and `syncTaskRunLabels`.
 - [ ] Task 2.4: Create `runtime/runner/step-actions.mjs` for shared pending-step helpers such as `loadPendingStep`, `loadReferencedArtifacts`, `loadTextArtifacts`, `clearPendingApproval`, and transition application logic used by submit, approve, revision, rejection, and clarification paths.
