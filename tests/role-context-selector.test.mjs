@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { selectRoleContext } from '../runtime/role-context-selector.mjs';
+import { selectRoleContext } from '../runtime/core/role-context-selector.mjs';
 
 function projectContext() {
   return {

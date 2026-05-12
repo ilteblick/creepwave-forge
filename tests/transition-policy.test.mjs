@@ -7,7 +7,7 @@ import {
   getKnownRoles,
   isKnownRole,
   isTerminalStepStatus
-} from '../runtime/transition-policy.mjs';
+} from '../runtime/core/transition-policy.mjs';
 
 test('exposes known roles from the base role set', () => {
   assert.deepEqual(getKnownRoles(), [

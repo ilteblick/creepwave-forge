@@ -1,14 +1,14 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { loadRuntimeContracts } from '../runtime/contract-loader.mjs';
+import { loadRuntimeContracts } from '../runtime/core/contract-loader.mjs';
 import {
   validateApproval,
   validateArtifactObject,
   validateHandoffObject,
   validateRunState,
   validateStepOutput
-} from '../runtime/step-validator.mjs';
+} from '../runtime/core/step-validator.mjs';
 
 const contracts = await loadRuntimeContracts();
 

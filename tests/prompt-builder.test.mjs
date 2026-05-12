@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { buildRolePacket, buildStepPrompt } from '../runtime/prompt-builder.mjs';
-import { loadSkillRegistry } from '../runtime/skill-registry.mjs';
+import { buildRolePacket, buildStepPrompt } from '../runtime/core/prompt-builder.mjs';
+import { loadSkillRegistry } from '../runtime/core/skill-registry.mjs';
 
 test('loads base skills by role with frontmatter metadata', async () => {
   const registry = await loadSkillRegistry();

@@ -1,14 +1,14 @@
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { loadRuntimeContracts } from './contract-loader.mjs';
+import { loadRuntimeContracts } from './core/contract-loader.mjs';
 import { loadProjectContext } from './project-context-loader.mjs';
 import { RunStore } from './runs/run-store.mjs';
 import { ArtifactStore, addArtifactToHandoff } from './runs/artifact-store.mjs';
-import { buildRolePacket } from './prompt-builder.mjs';
-import { loadSkillRegistry } from './skill-registry.mjs';
-import { validateStepOutput } from './step-validator.mjs';
-import { assertTransitionAllowed } from './transition-policy.mjs';
+import { buildRolePacket } from './core/prompt-builder.mjs';
+import { loadSkillRegistry } from './core/skill-registry.mjs';
+import { validateStepOutput } from './core/step-validator.mjs';
+import { assertTransitionAllowed } from './core/transition-policy.mjs';
 import { fetchTaskFromSource } from './tasks/task-source-client.mjs';
 import { preflightTaskLabelSync, syncTaskLabels } from './tasks/task-label-sync.mjs';
 import { buildTaskPrompt } from './tasks/task-prompt-builder.mjs';
