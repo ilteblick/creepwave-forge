@@ -98,11 +98,10 @@ export async function continueRun({
   if (run.status === 'awaiting_role_acceptance' && run.current_role) {
     run.status = 'awaiting_role_output';
     await store.saveRun(run);
-    await refreshRunReadme({ run, store });
-    await refreshActiveRunManifest({ run, store });
-    const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
-    const gitCommit = await commitTransferState({
+    const { labelSync, gitCommit } = await persistTransferState({
+      projectPath,
       run,
+      fetchImpl,
       store,
       message: `forge: start ${run.current_role} for ${run.run_id}`
     });
@@ -168,11 +167,10 @@ export async function submitStep({
   run.pending_step_path = store.toRunRelativePath(run.run_id, stepPath);
   run.pending_handoff_path = store.toRunRelativePath(run.run_id, handoffPath);
   await store.saveRun(run);
-  await refreshRunReadme({ run, store });
-  await refreshActiveRunManifest({ run, store });
-  const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
-  const gitCommit = await commitTransferState({
+  const { labelSync, gitCommit } = await persistTransferState({
+    projectPath,
     run,
+    fetchImpl,
     store,
     message: `forge: submit step ${String(run.step_index).padStart(3, '0')} for ${run.run_id}`
   });
@@ -208,14 +206,13 @@ export async function approveStep({
   applyApprovedTransition(run, stepOutput);
   clearPendingApproval(run);
   await store.saveRun(run);
-  await refreshRunReadme({ run, store });
-  await refreshActiveRunManifest({ run, store });
-  const gitCommit = await commitRunState({
+  const { labelSync, gitCommit } = await persistTransferState({
+    projectPath,
     run,
+    fetchImpl,
     store,
     message: `forge: approve step ${String(run.step_index).padStart(3, '0')} for ${run.run_id}`
   });
-  const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
 
   const rolePacket = run.status === 'awaiting_role_output'
     ? await buildPacketForRun({ run, store })
@@ -259,11 +256,10 @@ export async function requestChanges({
   clearPendingApproval(run);
   run.status = 'awaiting_role_output';
   await store.saveRun(run);
-  await refreshRunReadme({ run, store });
-  await refreshActiveRunManifest({ run, store });
-  const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
-  const gitCommit = await commitTransferState({
+  const { labelSync, gitCommit } = await persistTransferState({
+    projectPath,
     run,
+    fetchImpl,
     store,
     message: `forge: request changes for step ${String(run.step_index).padStart(3, '0')} in ${run.run_id}`
   });
@@ -317,11 +313,10 @@ export async function rejectHandoff({
     store.toRunRelativePath(run.run_id, revisionPath)
   ];
   await store.saveRun(run);
-  await refreshRunReadme({ run, store });
-  await refreshActiveRunManifest({ run, store });
-  const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
-  const gitCommit = await commitTransferState({
+  const { labelSync, gitCommit } = await persistTransferState({
+    projectPath,
     run,
+    fetchImpl,
     store,
     message: `forge: reject handoff for ${run.run_id}`
   });
@@ -355,11 +350,10 @@ export async function answerClarification({
   ];
   run.status = 'awaiting_role_output';
   await store.saveRun(run);
-  await refreshRunReadme({ run, store });
-  await refreshActiveRunManifest({ run, store });
-  const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
-  const gitCommit = await commitTransferState({
+  const { labelSync, gitCommit } = await persistTransferState({
+    projectPath,
     run,
+    fetchImpl,
     store,
     message: `forge: answer clarification for ${run.run_id}`
   });
@@ -642,12 +636,20 @@ async function commitRunState({ run, store, message }) {
   });
 }
 
-async function commitTransferState({ run, store, message }) {
-  return commitRunState({
+async function persistTransferState({ projectPath, run, fetchImpl, store, message }) {
+  await refreshRunReadme({ run, store });
+  await refreshActiveRunManifest({ run, store });
+  const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
+  const gitCommit = await commitRunState({
     run,
     store,
     message
   });
+
+  return {
+    labelSync,
+    gitCommit
+  };
 }
 
 function runStateCommitPaths(run) {
