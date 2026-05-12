@@ -13,14 +13,14 @@ This refactor will reorganize runtime modules around those responsibilities whil
 
 ## Acceptance Criteria
 
-- [ ] Runtime modules are grouped into responsibility-based subdirectories instead of remaining as one flat `runtime/` namespace.
-- [ ] Existing public imports used by `scripts/forge-mcp-server.mjs` and tests remain stable through a compatibility facade or explicit import updates.
-- [ ] `runtime/forge-runner.mjs` remains the public runner entrypoint but delegates internal workflow slices to smaller runner modules.
-- [ ] Task-source and label-sync modules live together under a clear task-board integration boundary.
-- [ ] Run storage, artifact storage, and timeline rendering live under a clear run-state boundary.
-- [ ] Contract/prompt/role validation helpers live under a clear core workflow boundary.
-- [ ] Runtime tests, MCP tests, task-source tests, and full `npm.cmd test` pass after the reorganization.
-- [ ] README repository-shape documentation reflects the new runtime layout.
+- [x] Runtime modules are grouped into responsibility-based subdirectories instead of remaining as one flat `runtime/` namespace.
+- [x] Existing public imports used by `scripts/forge-mcp-server.mjs` and tests remain stable through a compatibility facade or explicit import updates.
+- [x] `runtime/forge-runner.mjs` remains the public runner entrypoint but delegates internal workflow slices to smaller runner modules.
+- [x] Task-source and label-sync modules live together under a clear task-board integration boundary.
+- [x] Run storage, artifact storage, and timeline rendering live under a clear run-state boundary.
+- [x] Contract/prompt/role validation helpers live under a clear core workflow boundary.
+- [x] Runtime tests, MCP tests, task-source tests, and full `npm.cmd test` pass after the reorganization.
+- [x] README repository-shape documentation reflects the new runtime layout.
 
 ## Dependencies
 
