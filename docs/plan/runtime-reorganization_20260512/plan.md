@@ -27,7 +27,7 @@ Create the new folder layout and move cohesive modules without changing behavior
 - [x] Run `npm.cmd run test:board:mock`.
 - [x] Confirm `rg "../runtime/" scripts tests README.md` shows only intentional public import paths or updated paths.
 
-## Phase 2: Runner Decomposition
+## Phase 2: Runner Decomposition <!-- checkpoint:7103637 -->
 
 Reduce `runtime/forge-runner.mjs` by extracting internal workflow slices while keeping the public runner API unchanged.
 
