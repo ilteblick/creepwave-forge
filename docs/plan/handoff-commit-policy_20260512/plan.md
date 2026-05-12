@@ -56,7 +56,7 @@ Make the command surface impossible to misread during operator handoff.
 
 - [x] `npm.cmd test -- tests/mcp-server.test.mjs tests/task-source-mcp.test.mjs`
 
-## Phase 4: Docs & Cleanup
+## Phase 4: Docs & Cleanup <!-- checkpoint:a9b5a36 -->
 
 Tighten edge cases and remove obsolete guidance.
 
@@ -64,7 +64,7 @@ Tighten edge cases and remove obsolete guidance.
 
 - [x] Task 4.1: Review `runtime/forge-runner.mjs` for duplicate save/readme/manifest/sync/commit blocks and keep the smallest clear helper API. <!-- sha:d14c1b7 -->
 - [x] Task 4.2: Review `README.md` and existing docs under `docs/plan/approve-commit-mvp_20260510/` for wording that says request changes and clarification answers are local by default; update only active public docs, leaving historical specs intact. <!-- sha:31cc555 -->
-- [x] Task 4.3: Run full tests from `package.json` and fix any contract or runtime regressions. <!-- sha:afd7031 -->
+- [x] Task 4.3: Run full tests from `package.json` and fix any contract or runtime regressions. <!-- sha:a9b5a36 -->
 
 ### Verification
 
