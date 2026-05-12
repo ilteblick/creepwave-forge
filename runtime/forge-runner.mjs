@@ -557,6 +557,14 @@ async function commitRunState({ run, store, message }) {
   });
 }
 
+async function commitTransferState({ run, store, message }) {
+  return commitRunState({
+    run,
+    store,
+    message
+  });
+}
+
 function runStateCommitPaths(run) {
   return [
     'forge/active-run.json',
