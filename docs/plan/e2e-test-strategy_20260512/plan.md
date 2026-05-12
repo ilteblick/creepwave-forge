@@ -35,7 +35,7 @@ Keep real tracker checks outside the default regression path and guard them agai
 
 ### Tasks
 
-- [ ] Task 2.1: Decide whether `test:board:live` should be documentation-only for now or backed by a small guarded test file such as `tests/task-source-live-smoke.test.mjs`.
+- [~] Task 2.1: Decide whether `test:board:live` should be documentation-only for now or backed by a small guarded test file such as `tests/task-source-live-smoke.test.mjs`.
 - [ ] Task 2.2: If a live smoke test is added, require explicit environment prerequisites before any Forge run is created, using existing `.env.forge`/GitLab conventions from `runtime/task-source-config.mjs` and `runtime/task-source-gitlab.mjs`.
 - [ ] Task 2.3: Ensure the live smoke path only verifies connectivity, task readability, required marker label behavior, and fail-fast diagnostics; it must not be part of `npm.cmd test`.
 

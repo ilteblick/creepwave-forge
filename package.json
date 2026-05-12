@@ -11,6 +11,7 @@
     "test:runtime": "node --test tests/artifact-store.test.mjs tests/forge-runner.test.mjs tests/git-workflow.test.mjs tests/project-context-loader.test.mjs tests/prompt-builder.test.mjs tests/role-context-selector.test.mjs tests/run-store.test.mjs tests/run-timeline-index.test.mjs tests/transition-policy.test.mjs",
     "test:mcp": "node --test tests/mcp-server.test.mjs",
     "test:board:mock": "node --test tests/forge-board-labels.test.mjs tests/task-label-sync.test.mjs tests/task-prompt-builder.test.mjs tests/task-source-client.test.mjs tests/task-source-config.test.mjs tests/task-source-gitlab.test.mjs tests/task-source-mcp.test.mjs",
+    "test:board:live": "node --test tests/task-source-live-smoke.mjs",
     "test:e2e": "node --test tests/forge-runner.test.mjs tests/mcp-server.test.mjs tests/task-source-mcp.test.mjs"
   }
 }
