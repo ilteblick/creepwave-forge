@@ -25,7 +25,7 @@ Centralize the post-state-change persistence pattern so each transfer command sa
 
 - [x] `npm.cmd test -- tests/forge-runner.test.mjs tests/git-workflow.test.mjs`
 
-## Phase 2: Receiver Rejection
+## Phase 2: Receiver Rejection <!-- checkpoint:f490a89 -->
 
 Add a first-class way for the next role to reject an accepted handoff before starting active work.
 
