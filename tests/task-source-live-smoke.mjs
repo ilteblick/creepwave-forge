@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { loadTaskSourceConfig } from '../runtime/task-source-config.mjs';
-import { fetchGitLabTask } from '../runtime/task-source-gitlab.mjs';
+import { loadTaskSourceConfig } from '../runtime/tasks/task-source-config.mjs';
+import { fetchGitLabTask } from '../runtime/tasks/task-source-gitlab.mjs';
 
 const enableFlag = process.env.FORGE_LIVE_BOARD_SMOKE;
 const projectPath = process.env.FORGE_LIVE_PROJECT_PATH;

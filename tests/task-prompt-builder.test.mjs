@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { buildTaskPrompt } from '../runtime/task-prompt-builder.mjs';
+import { buildTaskPrompt } from '../runtime/tasks/task-prompt-builder.mjs';
 
 test('builds a Forge prompt from normalized task source data', () => {
   const prompt = buildTaskPrompt({

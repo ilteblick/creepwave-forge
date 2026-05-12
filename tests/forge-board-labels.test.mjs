@@ -10,7 +10,7 @@ import {
   mergeForgeLabels,
   roleLabelForRole,
   statusLabelForRunStatus
-} from '../runtime/forge-board-labels.mjs';
+} from '../runtime/tasks/forge-board-labels.mjs';
 
 test('maps run statuses to Forge board status labels', () => {
   assert.equal(statusLabelForRunStatus('created'), 'forge:running');

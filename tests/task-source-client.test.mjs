@@ -4,7 +4,7 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
-import { fetchTaskFromSource } from '../runtime/task-source-client.mjs';
+import { fetchTaskFromSource } from '../runtime/tasks/task-source-client.mjs';
 
 test('rejects unsupported task source types clearly', async () => {
   const projectPath = await mkdtemp(path.join(os.tmpdir(), 'forge-source-client-'));

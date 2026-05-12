@@ -15,7 +15,7 @@ import {
   syncTaskRunLabels,
   submitStep
 } from '../runtime/forge-runner.mjs';
-import { labelsForRun } from '../runtime/forge-board-labels.mjs';
+import { labelsForRun } from '../runtime/tasks/forge-board-labels.mjs';
 
 const serverInfo = {
   name: 'creepwave-forge',

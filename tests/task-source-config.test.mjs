@@ -8,7 +8,7 @@ import {
   loadTaskSourceConfig,
   parseTaskSourceEnv,
   redactTaskSourceConfig
-} from '../runtime/task-source-config.mjs';
+} from '../runtime/tasks/task-source-config.mjs';
 
 test('parses simple .env.forge content', () => {
   const parsed = parseTaskSourceEnv([

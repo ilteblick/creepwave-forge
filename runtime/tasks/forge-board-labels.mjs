@@ -1,4 +1,4 @@
-import { getKnownRoles } from './transition-policy.mjs';
+import { getKnownRoles } from '../transition-policy.mjs';
 
 export const forgeMarkerLabel = 'forge';
 

@@ -4,7 +4,7 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
-import { preflightTaskLabelSync, syncTaskLabels } from '../runtime/task-label-sync.mjs';
+import { preflightTaskLabelSync, syncTaskLabels } from '../runtime/tasks/task-label-sync.mjs';
 
 test('no-ops for runs without task source metadata', async () => {
   const projectPath = await mkdtemp(path.join(os.tmpdir(), 'forge-label-sync-noop-'));

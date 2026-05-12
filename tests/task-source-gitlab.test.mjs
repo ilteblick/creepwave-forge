@@ -6,7 +6,7 @@ import {
   parseGitLabProjectUrl,
   normalizeGitLabIssueIid,
   syncGitLabTaskLabels
-} from '../runtime/task-source-gitlab.mjs';
+} from '../runtime/tasks/task-source-gitlab.mjs';
 
 test('parses root-hosted GitLab project URLs', () => {
   assert.deepEqual(parseGitLabProjectUrl('https://gitlab.example.local/group/sub/project'), {

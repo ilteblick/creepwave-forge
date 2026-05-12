@@ -9,9 +9,9 @@ import { buildRolePacket } from './prompt-builder.mjs';
 import { loadSkillRegistry } from './skill-registry.mjs';
 import { validateStepOutput } from './step-validator.mjs';
 import { assertTransitionAllowed } from './transition-policy.mjs';
-import { fetchTaskFromSource } from './task-source-client.mjs';
-import { preflightTaskLabelSync, syncTaskLabels } from './task-label-sync.mjs';
-import { buildTaskPrompt } from './task-prompt-builder.mjs';
+import { fetchTaskFromSource } from './tasks/task-source-client.mjs';
+import { preflightTaskLabelSync, syncTaskLabels } from './tasks/task-label-sync.mjs';
+import { buildTaskPrompt } from './tasks/task-prompt-builder.mjs';
 import { buildRunTimeline, renderRunReadme, writeTimelineMirror } from './runs/run-timeline-index.mjs';
 import {
   commitScopedPaths,
