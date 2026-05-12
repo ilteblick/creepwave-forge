@@ -9,7 +9,7 @@
 
 Make git durability match the workflow model: every state another person or role is expected to act on must be committed automatically. Keep commits scoped to Forge state and keep GitLab label sync as a recoverable side effect.
 
-## Phase 1: Commit Policy Core
+## Phase 1: Commit Policy Core <!-- checkpoint:cfc2557 -->
 
 Centralize the post-state-change persistence pattern so each transfer command saves files, refreshes readmes/manifests, syncs labels, and commits in a predictable order.
 
