@@ -61,7 +61,7 @@ Tighten import conventions after the physical reorganization.
 - [x] No moved module leaves a stale top-level implementation file behind; top-level runtime files are either public facades or intentional compatibility shims.
 - [x] No behavior-oriented test expectation changes were made solely to accommodate the refactor.
 
-## Phase 4: Docs & Cleanup
+## Phase 4: Docs & Cleanup <!-- checkpoint:c01db8c -->
 
 Update project documentation and remove refactor debris.
 
