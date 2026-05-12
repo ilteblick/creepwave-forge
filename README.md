@@ -155,6 +155,18 @@ complete                          -> forge:done
 runtime/tool error                -> forge:failed
 ```
 
+Command surface by status:
+
+| Run status | Primary commands | Notes |
+| --- | --- | --- |
+| `awaiting_role_output` | `forge_continue`, `forge_submit_step`, `forge_status` | Active role can inspect its packet and submit output. `forge_submit_step` commits the pending approval state. |
+| `awaiting_approval` | `forge_approve`, `forge_request_changes`, `forge_status`, `forge_publish` | Human approves or requests revisions. `forge_publish` is optional because submit and revision paths auto-commit. |
+| `awaiting_role_acceptance` | `forge_continue`, `forge_reject_handoff`, `forge_status` | Receiving role starts work or returns the handoff before starting. Both paths commit the resulting state. |
+| `needs_clarification` | `forge_answer`, `forge_status`, `forge_publish` | Human answers the role's questions. `forge_answer` commits the resumed-work state. |
+| `complete` | `forge_status` | No workflow-advancing command is available. |
+| `blocked` / `paused` | `forge_status` | No workflow-advancing command is available. |
+| any task-backed run | `forge_sync_task` | Retry tracker label synchronization without changing workflow state. |
+
 ## Human Approval Workflow
 
 `forge_submit_step` never applies the role transition by itself. It stores the role output, saves the role artifact, records the outgoing handoff, moves the run to `awaiting_approval`, synchronizes task labels, and commits the pending approval state when git is available.
