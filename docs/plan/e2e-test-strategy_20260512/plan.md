@@ -51,7 +51,7 @@ Make the testing model visible so future agents and humans do not debug the wron
 
 ### Tasks
 
-- [ ] Task 3.1: Update `README.md` with a "Testing" section covering command names, Windows `npm.cmd` guidance, and failure interpretation by test layer.
+- [~] Task 3.1: Update `README.md` with a "Testing" section covering command names, Windows `npm.cmd` guidance, and failure interpretation by test layer.
 - [ ] Task 3.2: Document that real board validation is optional smoke coverage and should be run only with a prepared task, marker label, token, and known non-production tracker state.
 - [ ] Task 3.3: Remove obsolete or misleading scripts after confirming no README references point to old names.
 

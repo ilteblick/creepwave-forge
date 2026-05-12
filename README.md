@@ -227,7 +227,7 @@ Roles can consult each other without permanently transferring ownership.
 
 `consultation_request` pushes the current role onto the role stack and sends a packet to the consulted role. `consultation_response` must return to the role at the top of that stack.
 
-## Development
+## Testing
 
 Run the full local regression suite:
 
@@ -248,6 +248,13 @@ Named test layers:
 | `npm.cmd run test:mcp` | Public MCP tool behavior and formatting checks. |
 | `npm.cmd run test:board:mock` | Mocked task-board and GitLab behavior, including labels, timeouts, token redaction, and retry sync. |
 | `npm.cmd run test:e2e` | Deterministic Forge workflow e2e through runner, MCP, and mocked task-source paths. |
+| `npm.cmd run test:board:live` | Optional live GitLab smoke check. This is not part of `npm.cmd test`. |
+
+Failure interpretation:
+
+- `test:contracts`, `test:core`, `test:runtime`, `test:mcp`, `test:board:mock`, or `test:e2e` failures are Forge regressions unless the local Node/git environment is broken.
+- `test:board:live` failures should be triaged as environment, credentials, permissions, network, or prepared tracker-state problems first.
+- A PowerShell `npm.ps1 cannot be loaded` error means the test runner did not start. Use `npm.cmd ...` or fix local PowerShell execution policy.
 
 Examples:
 
