@@ -1,6 +1,3 @@
-import { writeFile } from 'node:fs/promises';
-import path from 'node:path';
-
 import { loadRuntimeContracts } from './core/contract-loader.mjs';
 import { loadProjectContext } from './context/project-context-loader.mjs';
 import { RunStore } from './runs/run-store.mjs';
@@ -12,11 +9,15 @@ import { assertTransitionAllowed } from './core/transition-policy.mjs';
 import { fetchTaskFromSource } from './tasks/task-source-client.mjs';
 import { preflightTaskLabelSync, syncTaskLabels } from './tasks/task-label-sync.mjs';
 import { buildTaskPrompt } from './tasks/task-prompt-builder.mjs';
-import { buildRunTimeline, renderRunReadme, writeTimelineMirror } from './runs/run-timeline-index.mjs';
+import { buildRunTimeline } from './runs/run-timeline-index.mjs';
 import {
-  commitScopedPaths,
-  createAndCheckoutBranch,
-  createRunBranchName,
+  commitRunState,
+  createRunBranch,
+  persistTransferState,
+  refreshActiveRunManifest,
+  refreshRunReadme
+} from './runner/persistence.mjs';
+import {
   getCurrentBranch
 } from './git/git-workflow.mjs';
 
@@ -103,7 +104,8 @@ export async function continueRun({
       run,
       fetchImpl,
       store,
-      message: `forge: start ${run.current_role} for ${run.run_id}`
+      message: `forge: start ${run.current_role} for ${run.run_id}`,
+      syncLabelsForRun
     });
     return {
       run,
@@ -172,7 +174,8 @@ export async function submitStep({
     run,
     fetchImpl,
     store,
-    message: `forge: submit step ${String(run.step_index).padStart(3, '0')} for ${run.run_id}`
+    message: `forge: submit step ${String(run.step_index).padStart(3, '0')} for ${run.run_id}`,
+    syncLabelsForRun
   });
 
   return {
@@ -211,7 +214,8 @@ export async function approveStep({
     run,
     fetchImpl,
     store,
-    message: `forge: approve step ${String(run.step_index).padStart(3, '0')} for ${run.run_id}`
+    message: `forge: approve step ${String(run.step_index).padStart(3, '0')} for ${run.run_id}`,
+    syncLabelsForRun
   });
 
   const rolePacket = run.status === 'awaiting_role_output'
@@ -261,7 +265,8 @@ export async function requestChanges({
     run,
     fetchImpl,
     store,
-    message: `forge: request changes for step ${String(run.step_index).padStart(3, '0')} in ${run.run_id}`
+    message: `forge: request changes for step ${String(run.step_index).padStart(3, '0')} in ${run.run_id}`,
+    syncLabelsForRun
   });
 
   return {
@@ -318,7 +323,8 @@ export async function rejectHandoff({
     run,
     fetchImpl,
     store,
-    message: `forge: reject handoff for ${run.run_id}`
+    message: `forge: reject handoff for ${run.run_id}`,
+    syncLabelsForRun
   });
 
   return {
@@ -355,7 +361,8 @@ export async function answerClarification({
     run,
     fetchImpl,
     store,
-    message: `forge: answer clarification for ${run.run_id}`
+    message: `forge: answer clarification for ${run.run_id}`,
+    syncLabelsForRun
   });
 
   return {
@@ -599,64 +606,6 @@ async function buildStatus({ run, store }) {
     pendingApproval: run.status === 'awaiting_approval' ? run.pending_step_path : null,
     nextAllowedActions: nextAllowedActions(run)
   };
-}
-
-async function refreshRunReadme({ run, store }) {
-  const runDir = store.getRunDir(run.run_id);
-  const timeline = await buildRunTimeline({ run, store });
-  const markdown = renderRunReadme({ run, timeline, runDir });
-  await writeFile(path.join(runDir, 'README.md'), markdown, 'utf8');
-  await writeTimelineMirror({ run, store, timeline });
-}
-
-async function refreshActiveRunManifest({ run, store }) {
-  await store.saveActiveRunManifest(run, {
-    branch: await getCurrentBranch(store.projectRoot)
-  });
-}
-
-async function createRunBranch({ run, store, branchSlug }) {
-  const branch = createRunBranchName({
-    userPrompt: run.user_prompt,
-    branchSlug,
-    runId: run.run_id
-  });
-
-  return createAndCheckoutBranch({
-    projectRoot: store.projectRoot,
-    branch
-  });
-}
-
-async function commitRunState({ run, store, message }) {
-  return commitScopedPaths({
-    projectRoot: store.projectRoot,
-    paths: runStateCommitPaths(run),
-    message
-  });
-}
-
-async function persistTransferState({ projectPath, run, fetchImpl, store, message }) {
-  await refreshRunReadme({ run, store });
-  await refreshActiveRunManifest({ run, store });
-  const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
-  const gitCommit = await commitRunState({
-    run,
-    store,
-    message
-  });
-
-  return {
-    labelSync,
-    gitCommit
-  };
-}
-
-function runStateCommitPaths(run) {
-  return [
-    'forge/active-run.json',
-    `forge/runs/${run.run_id}`
-  ];
 }
 
 async function syncLabelsForRun({ projectPath, run, fetchImpl, store }) {
