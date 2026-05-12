@@ -53,13 +53,13 @@ Tighten import conventions after the physical reorganization.
 
 - [x] Task 3.1: Review `runtime/` imports with `rg "^import .*\\.\\./|from './|from \"./" runtime` and normalize paths so each subdirectory imports through the nearest clear boundary instead of reaching across unrelated folders when avoidable. <!-- sha:cb91930 -->
 - [x] Task 3.2: Add or adjust focused tests only where the refactor exposes a missing guard, prioritizing `tests/forge-runner.test.mjs`, `tests/mcp-server.test.mjs`, `tests/task-source-mcp.test.mjs`, and moved module tests. <!-- sha:27810bb -->
-- [~] Task 3.3: Run the layered scripts from `package.json`: `npm.cmd run test:core`, `npm.cmd run test:mcp`, `npm.cmd run test:board:mock`, and `npm.cmd test`.
+- [x] Task 3.3: Run the layered scripts from `package.json`: `npm.cmd run test:core`, `npm.cmd run test:mcp`, `npm.cmd run test:board:mock`, and `npm.cmd test`. <!-- sha:bd6a5d3 -->
 
 ### Verification
 
-- [ ] Full `npm.cmd test` passes.
-- [ ] No moved module leaves a stale top-level implementation file behind; top-level runtime files are either public facades or intentional compatibility shims.
-- [ ] No behavior-oriented test expectation changes were made solely to accommodate the refactor.
+- [x] Full `npm.cmd test` passes.
+- [x] No moved module leaves a stale top-level implementation file behind; top-level runtime files are either public facades or intentional compatibility shims.
+- [x] No behavior-oriented test expectation changes were made solely to accommodate the refactor.
 
 ## Phase 4: Docs & Cleanup
 
