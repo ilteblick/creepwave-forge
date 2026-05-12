@@ -13,13 +13,13 @@ This track should make day-to-day test failures easier to interpret: a failure i
 
 ## Acceptance Criteria
 
-- [ ] `package.json` exposes named scripts for core contract/runtime checks, MCP checks, mocked board integration, deterministic e2e, and full local regression.
-- [ ] Windows PowerShell usage is documented with `npm.cmd` so blocked `npm.ps1` execution policy is not mistaken for a test failure.
-- [ ] README documents the test taxonomy and when to run each command.
-- [ ] Live task-board validation is documented as optional smoke coverage and is not part of the default regression command.
-- [ ] Existing GitLab/task board tests remain mocked and deterministic by default.
-- [ ] Any new live-board smoke command fails fast with clear missing-environment guidance and does not create local Forge run state unless prerequisites are satisfied.
-- [ ] `npm.cmd test` continues to pass after the script/documentation changes.
+- [x] `package.json` exposes named scripts for core contract/runtime checks, MCP checks, mocked board integration, deterministic e2e, and full local regression.
+- [x] Windows PowerShell usage is documented with `npm.cmd` so blocked `npm.ps1` execution policy is not mistaken for a test failure.
+- [x] README documents the test taxonomy and when to run each command.
+- [x] Live task-board validation is documented as optional smoke coverage and is not part of the default regression command.
+- [x] Existing GitLab/task board tests remain mocked and deterministic by default.
+- [x] Any new live-board smoke command fails fast with clear missing-environment guidance and does not create local Forge run state unless prerequisites are satisfied.
+- [x] `npm.cmd test` continues to pass after the script/documentation changes.
 
 ## Dependencies
 
