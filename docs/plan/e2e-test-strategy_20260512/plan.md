@@ -57,9 +57,9 @@ Make the testing model visible so future agents and humans do not debug the wron
 
 ### Verification
 
-- [ ] README accurately reflects scripts in `package.json`.
-- [ ] Linter is not applicable unless a lint script is added.
-- [ ] `npm.cmd test` passes.
+- [x] README accurately reflects scripts in `package.json`.
+- [x] Linter is not applicable unless a lint script is added.
+- [x] `npm.cmd test` passes.
 
 ## Final Verification
 
