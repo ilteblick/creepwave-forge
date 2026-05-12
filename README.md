@@ -9,7 +9,13 @@ It routes one task through one active role at a time, validates each role output
 - `.codex-plugin/plugin.json` defines the installable Codex plugin.
 - `.mcp.json` registers the local MCP server.
 - `scripts/forge-mcp-server.mjs` exposes Forge MCP tools.
-- `runtime/` contains run storage, project context loading, prompt building, validation, and transition orchestration.
+- `runtime/forge-runner.mjs` is the public runtime facade used by the MCP server.
+- `runtime/core/` contains contracts, prompt building, role context selection, skill registry loading, step validation, and transition policy.
+- `runtime/runs/` contains run storage, artifact storage, and run timeline rendering.
+- `runtime/tasks/` contains task-source loading, GitLab integration, task prompt building, board labels, and label sync.
+- `runtime/context/` contains project context loading.
+- `runtime/git/` contains git branch and scoped commit helpers.
+- `runtime/runner/` contains internal runner helpers for persistence, status projection, step actions, and task-backed runs.
 - `contracts/` contains JSON schemas, artifact documentation, and examples.
 - `skills/base/` contains reusable base role skills.
 - `tests/` contains Node test coverage for contracts, runtime, and MCP behavior.
