@@ -13,7 +13,7 @@ import {
   getCurrentBranch,
   isGitWorktree,
   slugifyBranchSegment
-} from '../runtime/git-workflow.mjs';
+} from '../runtime/git/git-workflow.mjs';
 
 const execFileAsync = promisify(execFile);
 

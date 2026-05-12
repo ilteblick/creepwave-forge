@@ -2,7 +2,7 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { loadRuntimeContracts } from './core/contract-loader.mjs';
-import { loadProjectContext } from './project-context-loader.mjs';
+import { loadProjectContext } from './context/project-context-loader.mjs';
 import { RunStore } from './runs/run-store.mjs';
 import { ArtifactStore, addArtifactToHandoff } from './runs/artifact-store.mjs';
 import { buildRolePacket } from './core/prompt-builder.mjs';
@@ -18,7 +18,7 @@ import {
   createAndCheckoutBranch,
   createRunBranchName,
   getCurrentBranch
-} from './git-workflow.mjs';
+} from './git/git-workflow.mjs';
 
 export async function startRun({
   projectPath,

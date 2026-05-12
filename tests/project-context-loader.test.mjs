@@ -3,7 +3,7 @@ import test from 'node:test';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { loadProjectContext } from '../runtime/project-context-loader.mjs';
+import { loadProjectContext } from '../runtime/context/project-context-loader.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const fixtureRoot = path.join(__dirname, 'fixtures', 'project-context');
