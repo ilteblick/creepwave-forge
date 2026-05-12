@@ -9,7 +9,7 @@
 
 Organize the existing test coverage into explicit layers, add stable npm scripts for those layers, and document the difference between deterministic mocked e2e and optional live task-board smoke checks.
 
-## Phase 1: Test Taxonomy
+## Phase 1: Test Taxonomy <!-- checkpoint:0661a27 -->
 
 Classify the current test files and make the command surface match how failures should be interpreted.
 
