@@ -23,9 +23,9 @@ Create the new folder layout and move cohesive modules without changing behavior
 
 ### Verification
 
-- [ ] Run `npm.cmd run test:core`.
-- [ ] Run `npm.cmd run test:board:mock`.
-- [ ] Confirm `rg "../runtime/" scripts tests README.md` shows only intentional public import paths or updated paths.
+- [x] Run `npm.cmd run test:core`.
+- [x] Run `npm.cmd run test:board:mock`.
+- [x] Confirm `rg "../runtime/" scripts tests README.md` shows only intentional public import paths or updated paths.
 
 ## Phase 2: Runner Decomposition
 
