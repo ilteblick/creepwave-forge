@@ -277,6 +277,64 @@ export async function requestChanges({
   };
 }
 
+export async function rejectHandoff({
+  projectPath,
+  runId,
+  instructions,
+  fetchImpl = globalThis.fetch,
+  store = storeForProject(projectPath)
+} = {}) {
+  runId = await resolveRunId({ runId, store });
+  const run = await store.loadRun(runId);
+  if (run.status !== 'awaiting_role_acceptance') {
+    throw new Error(`Run ${runId} is not awaiting role acceptance; current status is ${run.status}`);
+  }
+  if (!instructions || instructions.trim() === '') {
+    throw new Error('instructions are required');
+  }
+
+  const receiverRole = run.current_role;
+  const returnRole = run.previous_handoff?.source_role;
+  if (!returnRole) {
+    throw new Error(`Run ${runId} has no previous handoff source role to return to`);
+  }
+
+  run.current_role = returnRole;
+  run.status = 'awaiting_role_output';
+  if ((run.role_stack ?? []).at(-1) === returnRole) {
+    run.role_stack = run.role_stack.slice(0, -1);
+  }
+  const revisionPath = await store.saveRevisionRequest(
+    run,
+    [
+      `Receiver role ${receiverRole ?? 'unknown'} rejected the accepted handoff before starting.`,
+      '',
+      instructions.trim()
+    ].join('\n')
+  );
+  run.revision_request_paths = [
+    ...(run.revision_request_paths ?? []),
+    store.toRunRelativePath(run.run_id, revisionPath)
+  ];
+  await store.saveRun(run);
+  await refreshRunReadme({ run, store });
+  await refreshActiveRunManifest({ run, store });
+  const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
+  const gitCommit = await commitTransferState({
+    run,
+    store,
+    message: `forge: reject handoff for ${run.run_id}`
+  });
+
+  return {
+    run,
+    labelSync,
+    gitCommit,
+    rolePacket: await buildPacketForRun({ run, store }),
+    runDir: store.getRunDir(runId)
+  };
+}
+
 export async function answerClarification({
   projectPath,
   runId,
