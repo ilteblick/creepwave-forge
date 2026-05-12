@@ -11,6 +11,7 @@ import {
   approveStep,
   continueRun,
   getStatus,
+  rejectHandoff,
   requestChanges,
   startRun,
   submitStep
@@ -340,6 +341,51 @@ test('role acceptance waits for continue without allowing submit', async () => {
     const status = await getStatus({ projectPath, runId: started.run.run_id });
 
     assert.deepEqual(status.nextAllowedActions, ['forge_continue', 'forge_reject_handoff']);
+  } finally {
+    await rm(projectPath, { recursive: true, force: true });
+  }
+});
+
+test('rejectHandoff returns an accepted handoff to the sending role and commits', async () => {
+  const projectPath = await mkdtemp(path.join(os.tmpdir(), 'forge-runner-reject-'));
+  try {
+    await initRepo(projectPath);
+    const started = await startRun({ projectPath, userPrompt: 'Build filters' });
+    await submitStep({ projectPath, runId: started.run.run_id, stepOutput: stepOutput() });
+    await approveStep({ projectPath, runId: started.run.run_id, note: 'Approved.' });
+    const commitsBeforeReject = await commitCount(projectPath);
+
+    const rejected = await rejectHandoff({
+      projectPath,
+      runId: started.run.run_id,
+      instructions: 'The target role needs more precise scope.'
+    });
+
+    assert.equal(rejected.run.status, 'awaiting_role_output');
+    assert.equal(rejected.run.current_role, 'context-router');
+    assert.equal(rejected.rolePacket.active_role, 'context-router');
+    assert.equal(rejected.gitCommit.committed, true);
+    assert.equal(await commitCount(projectPath), commitsBeforeReject + 1);
+    assert.equal(await git(projectPath, ['log', '-1', '--pretty=%s']), `forge: reject handoff for ${started.run.run_id}\n`);
+    assert.match(await readFile(path.join(started.runDir, 'revision-requests', '001-context-router.md'), 'utf8'), /target role needs more precise scope/);
+  } finally {
+    await rm(projectPath, { recursive: true, force: true });
+  }
+});
+
+test('rejectHandoff is only valid while awaiting role acceptance', async () => {
+  const projectPath = await mkdtemp(path.join(os.tmpdir(), 'forge-runner-reject-invalid-'));
+  try {
+    const started = await startRun({ projectPath, userPrompt: 'Build filters' });
+
+    await assert.rejects(
+      () => rejectHandoff({
+        projectPath,
+        runId: started.run.run_id,
+        instructions: 'Return it.'
+      }),
+      /is not awaiting role acceptance/
+    );
   } finally {
     await rm(projectPath, { recursive: true, force: true });
   }

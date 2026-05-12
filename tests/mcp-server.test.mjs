@@ -53,6 +53,7 @@ test('tools/list exposes Forge tools', async () => {
   assert.ok(names.includes('forge_run'));
   assert.ok(names.includes('forge_approve'));
   assert.ok(names.includes('forge_request_changes'));
+  assert.ok(names.includes('forge_reject_handoff'));
   assert.ok(names.includes('forge_publish'));
   assert.ok(names.includes('forge_sync_task'));
 });
@@ -80,6 +81,10 @@ test('validates required MCP tool arguments', async () => {
   await assert.rejects(
     () => callTool('forge_approve', { projectPath: 'C:/tmp', runId: 'run-1' }),
     /humanApproval must be a non-empty string/
+  );
+  await assert.rejects(
+    () => callTool('forge_reject_handoff', { projectPath: 'C:/tmp', runId: 'run-1' }),
+    /instructions must be a non-empty string/
   );
   await assert.rejects(
     () => callTool('forge_publish', { projectPath: 'C:/tmp', runId: [] }),
@@ -187,6 +192,42 @@ test('forge_publish commits pending state without applying approval', async () =
     const status = await callTool('forge_status', { projectPath, runId });
     assert.match(textOf(status), /Run Status: awaiting_approval/);
     assert.match(textOf(status), /Pending Approval: steps\/001-context-router\.json/);
+  } finally {
+    await rm(projectPath, { recursive: true, force: true });
+  }
+});
+
+test('forge_reject_handoff returns accepted handoff to sender', async () => {
+  const projectPath = await mkdtemp(path.join(os.tmpdir(), 'forge-mcp-reject-'));
+  try {
+    await initRepo(projectPath);
+    const started = await callTool('forge_run', {
+      projectPath,
+      prompt: 'Build filters'
+    });
+    const runId = extractRunId(textOf(started));
+    await callTool('forge_submit_step', {
+      projectPath,
+      runId,
+      stepOutput: validRouterStep()
+    });
+    await callTool('forge_approve', {
+      projectPath,
+      runId,
+      humanApproval: 'Approved.'
+    });
+
+    const rejected = await callTool('forge_reject_handoff', {
+      projectPath,
+      runId,
+      instructions: 'Business analyst needs a narrower scope.'
+    });
+    const rejectedText = textOf(rejected);
+
+    assert.match(rejectedText, /# Forge Handoff Rejected/);
+    assert.match(rejectedText, /Run Status: awaiting_role_output/);
+    assert.match(rejectedText, /Step 2: context-router/);
+    assert.match(rejectedText, /"active_role": "context-router"/);
   } finally {
     await rm(projectPath, { recursive: true, force: true });
   }
