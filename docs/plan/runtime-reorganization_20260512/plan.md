@@ -69,7 +69,7 @@ Update project documentation and remove refactor debris.
 
 - [x] Task 4.1: Update `README.md` Repository Shape so `runtime/` describes `core/`, `runs/`, `tasks/`, `context/`, `git/`, `runner/`, and the public `forge-runner.mjs` facade. <!-- sha:048cac1 -->
 - [x] Task 4.2: Update any README sections that reference direct runtime file paths such as `runtime/forge-board-labels.mjs`, `runtime/task-source-config.mjs`, or `runtime/task-source-gitlab.mjs` if those references should now point to subdirectories. <!-- sha:7e4656c -->
-- [ ] Task 4.3: Remove unused imports, stale compatibility shims that are not needed, and any temporary notes introduced during the refactor.
+- [~] Task 4.3: Remove unused imports, stale compatibility shims that are not needed, and any temporary notes introduced during the refactor.
 
 ### Verification
 
@@ -97,22 +97,27 @@ Reorganize the growing flat `runtime/` directory into responsibility-based subdi
 
 - `runtime/forge-runner.mjs`
 - `runtime/forge-board-labels.mjs`
-- `runtime/task-source-client.mjs`
-- `runtime/task-source-config.mjs`
-- `runtime/task-source-gitlab.mjs`
-- `runtime/task-prompt-builder.mjs`
-- `runtime/task-label-sync.mjs`
-- `runtime/artifact-store.mjs`
-- `runtime/run-store.mjs`
-- `runtime/run-timeline-index.mjs`
-- `runtime/contract-loader.mjs`
-- `runtime/prompt-builder.mjs`
-- `runtime/role-context-selector.mjs`
-- `runtime/skill-registry.mjs`
-- `runtime/step-validator.mjs`
-- `runtime/transition-policy.mjs`
-- `runtime/project-context-loader.mjs`
-- `runtime/git-workflow.mjs`
+- `runtime/tasks/forge-board-labels.mjs`
+- `runtime/tasks/task-source-client.mjs`
+- `runtime/tasks/task-source-config.mjs`
+- `runtime/tasks/task-source-gitlab.mjs`
+- `runtime/tasks/task-prompt-builder.mjs`
+- `runtime/tasks/task-label-sync.mjs`
+- `runtime/runs/artifact-store.mjs`
+- `runtime/runs/run-store.mjs`
+- `runtime/runs/run-timeline-index.mjs`
+- `runtime/core/contract-loader.mjs`
+- `runtime/core/prompt-builder.mjs`
+- `runtime/core/role-context-selector.mjs`
+- `runtime/core/skill-registry.mjs`
+- `runtime/core/step-validator.mjs`
+- `runtime/core/transition-policy.mjs`
+- `runtime/context/project-context-loader.mjs`
+- `runtime/git/git-workflow.mjs`
+- `runtime/runner/persistence.mjs`
+- `runtime/runner/status.mjs`
+- `runtime/runner/step-actions.mjs`
+- `runtime/runner/task-run.mjs`
 - `scripts/forge-mcp-server.mjs`
 - `tests/*.test.mjs`
 - `README.md`
