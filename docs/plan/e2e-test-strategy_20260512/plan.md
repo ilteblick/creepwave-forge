@@ -18,7 +18,7 @@ Classify the current test files and make the command surface match how failures 
 - [x] Task 1.1: Update `package.json` scripts to add named commands for contract/runtime checks, MCP checks, mocked board integration, deterministic e2e, and full local regression. <!-- sha:b568265 -->
   - [ ] Keep `test` as the full local regression command using `node --test`.
   - [ ] Keep or replace `test:runtime` only if the new naming remains backward-compatible enough for current users.
-- [ ] Task 1.2: Map existing tests into the new scripts without changing test behavior: `tests/contract-validator.test.mjs`, `tests/transition-policy.test.mjs`, `tests/forge-runner.test.mjs`, `tests/mcp-server.test.mjs`, `tests/task-source-*.test.mjs`, `tests/task-label-sync.test.mjs`, `tests/forge-board-labels.test.mjs`, and git/run-store/prompt/context tests.
+- [x] Task 1.2: Map existing tests into the new scripts without changing test behavior: `tests/contract-validator.test.mjs`, `tests/transition-policy.test.mjs`, `tests/forge-runner.test.mjs`, `tests/mcp-server.test.mjs`, `tests/task-source-*.test.mjs`, `tests/task-label-sync.test.mjs`, `tests/forge-board-labels.test.mjs`, and git/run-store/prompt/context tests. <!-- sha:b568265 -->
 - [ ] Task 1.3: Add a short script comment-equivalent in README rather than JSON comments, because `package.json` cannot carry comments.
 
 ### Verification
