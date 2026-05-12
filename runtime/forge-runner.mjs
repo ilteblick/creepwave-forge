@@ -164,10 +164,16 @@ export async function submitStep({
   await store.saveRun(run);
   await refreshRunReadme({ run, store });
   const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
+  const gitCommit = await commitTransferState({
+    run,
+    store,
+    message: `forge: submit step ${String(run.step_index).padStart(3, '0')} for ${run.run_id}`
+  });
 
   return {
     run,
     stepOutput: persistedStepOutput,
+    gitCommit,
     labelSync,
     runDir: store.getRunDir(runId)
   };

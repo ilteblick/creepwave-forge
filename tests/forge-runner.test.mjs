@@ -437,20 +437,23 @@ test('task-backed start persists retryable tracker sync failures after initial c
   }
 });
 
-test('requestChanges and answerClarification do not create git commits', async () => {
+test('submitStep commits pending approval while requestChanges and answerClarification stay local', async () => {
   const projectPath = await mkdtemp(path.join(os.tmpdir(), 'forge-runner-'));
   try {
     await initRepo(projectPath);
     const started = await startRun({ projectPath, userPrompt: 'Build filters' });
     const commitsAfterStart = await commitCount(projectPath);
-    await submitStep({ projectPath, runId: started.run.run_id, stepOutput: stepOutput() });
+    const submitted = await submitStep({ projectPath, runId: started.run.run_id, stepOutput: stepOutput() });
+    assert.equal(submitted.gitCommit.committed, true);
+    const commitsAfterSubmit = await commitCount(projectPath);
+    assert.equal(commitsAfterSubmit, commitsAfterStart + 1);
     await requestChanges({
       projectPath,
       runId: started.run.run_id,
       instructions: 'Choose the analyst explicitly.'
     });
 
-    assert.equal(await commitCount(projectPath), commitsAfterStart);
+    assert.equal(await commitCount(projectPath), commitsAfterSubmit);
 
     await submitStep({
       projectPath,
@@ -469,7 +472,7 @@ test('requestChanges and answerClarification do not create git commits', async (
     });
     await approveStep({ projectPath, runId: started.run.run_id });
     const commitsAfterApproval = await commitCount(projectPath);
-    assert.equal(commitsAfterApproval, commitsAfterStart + 1);
+    assert.equal(commitsAfterApproval, commitsAfterStart + 3);
 
     await answerClarification({
       projectPath,

@@ -16,7 +16,7 @@ Centralize the post-state-change persistence pattern so each transfer command sa
 ### Tasks
 
 - [x] Task 1.1: Update `runtime/forge-runner.mjs` to add a reusable helper for transfer-state commits after label sync, using existing `commitRunState()` and `runStateCommitPaths(run)`. <!-- sha:cd951df -->
-- [ ] Task 1.2: Update `runtime/forge-runner.mjs` `submitStep()` so pending approval state is committed after `syncLabelsForRun()`, and include `gitCommit` in the returned result.
+- [~] Task 1.2: Update `runtime/forge-runner.mjs` `submitStep()` so pending approval state is committed after `syncLabelsForRun()`, and include `gitCommit` in the returned result.
 - [ ] Task 1.3: Update `runtime/forge-runner.mjs` `continueRun()` so promotion from `awaiting_role_acceptance` to `awaiting_role_output` refreshes the active manifest, syncs labels, commits the started-role state, and returns `gitCommit`.
 - [ ] Task 1.4: Update `runtime/forge-runner.mjs` `requestChanges()` and `answerClarification()` so both commit their resumed-work states after label sync and return `gitCommit`.
 - [ ] Task 1.5: Add focused tests in `tests/forge-runner.test.mjs` proving `forge_submit_step`, `forge_continue`, `requestChanges`, and `answerClarification` create scoped commits in git worktrees and skip safely outside git.
