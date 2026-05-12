@@ -9,7 +9,7 @@
 
 Reorganize `runtime/` by responsibility while keeping the existing Forge behavior and MCP surface stable. Start with low-risk file moves and import updates, then split `runtime/forge-runner.mjs` behind its existing public facade.
 
-## Phase 1: Runtime Module Boundaries
+## Phase 1: Runtime Module Boundaries <!-- checkpoint:34b51c7 -->
 
 Create the new folder layout and move cohesive modules without changing behavior.
 
