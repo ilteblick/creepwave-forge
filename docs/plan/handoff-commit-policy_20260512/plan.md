@@ -19,11 +19,11 @@ Centralize the post-state-change persistence pattern so each transfer command sa
 - [x] Task 1.2: Update `runtime/forge-runner.mjs` `submitStep()` so pending approval state is committed after `syncLabelsForRun()`, and include `gitCommit` in the returned result. <!-- sha:d3ac41f -->
 - [x] Task 1.3: Update `runtime/forge-runner.mjs` `continueRun()` so promotion from `awaiting_role_acceptance` to `awaiting_role_output` refreshes the active manifest, syncs labels, commits the started-role state, and returns `gitCommit`. <!-- sha:0775d88 -->
 - [x] Task 1.4: Update `runtime/forge-runner.mjs` `requestChanges()` and `answerClarification()` so both commit their resumed-work states after label sync and return `gitCommit`. <!-- sha:cdb5f79 -->
-- [~] Task 1.5: Add focused tests in `tests/forge-runner.test.mjs` proving `forge_submit_step`, `forge_continue`, `requestChanges`, and `answerClarification` create scoped commits in git worktrees and skip safely outside git.
+- [x] Task 1.5: Add focused tests in `tests/forge-runner.test.mjs` proving `forge_submit_step`, `forge_continue`, `requestChanges`, and `answerClarification` create scoped commits in git worktrees and skip safely outside git. <!-- sha:544f56a -->
 
 ### Verification
 
-- [ ] `npm.cmd test -- tests/forge-runner.test.mjs tests/git-workflow.test.mjs`
+- [x] `npm.cmd test -- tests/forge-runner.test.mjs tests/git-workflow.test.mjs`
 
 ## Phase 2: Receiver Rejection
 
