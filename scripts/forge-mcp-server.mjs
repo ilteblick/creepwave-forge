@@ -640,15 +640,6 @@ function formatStatusResult(status) {
     }
   }
 
-  if (canPublishStatus(status.status)) {
-    lines.push(
-      '',
-      '## Optional Git Transfer',
-      '',
-      'Use forge_publish to commit the current run state for handoff without approving or changing workflow state.'
-    );
-  }
-
   return lines.join('\n');
 }
 
@@ -748,10 +739,6 @@ function formatLabelSyncSection(labelSync) {
     `Desired Labels: ${labelSync.desiredLabels.join(', ')}`,
     `Applied Labels: ${labelSync.appliedLabels.join(', ')}`
   ];
-}
-
-function canPublishStatus(status) {
-  return ['awaiting_approval', 'needs_clarification', 'revision_requested'].includes(status);
 }
 
 function formatSourceTaskSummary(task) {

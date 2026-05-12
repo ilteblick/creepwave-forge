@@ -114,8 +114,11 @@ test('formats status and resolves project-scoped runs by projectPath', async () 
     });
     assert.match(textOf(submitted), /Pending Approval/);
     assert.match(textOf(submitted), /Run Summary: .*README\.md/);
+    assert.match(textOf(submitted), /## Git Commit/);
+    assert.match(textOf(submitted), /Skipped: not_git_worktree/);
     assert.match(textOf(submitted), /forge_approve/);
     assert.match(textOf(submitted), /Stop now and show this pending output to the human/);
+    assert.doesNotMatch(textOf(submitted), /Use forge_publish/);
 
     const status = await callTool('forge_status', {
       projectPath,
@@ -129,8 +132,7 @@ test('formats status and resolves project-scoped runs by projectPath', async () 
     assert.match(textOf(status), /timeline\/001-context-router\/manifest\.json/);
     assert.match(textOf(status), /Pending Approval: steps\/001-context-router\.json/);
     assert.match(textOf(status), /Human approval is required/);
-    assert.match(textOf(status), /## Optional Git Transfer/);
-    assert.match(textOf(status), /Use forge_publish/);
+    assert.doesNotMatch(textOf(status), /Use forge_publish/);
     assert.match(textOf(status), /## Step Trace/);
     assert.match(textOf(status), /- 001-context-router\.json/);
     assert.match(textOf(status), /## Artifacts/);
@@ -157,6 +159,7 @@ test('formats status and resolves project-scoped runs by projectPath', async () 
     assert.match(textOf(nextRole), /Run Status: awaiting_role_output/);
     assert.match(textOf(nextRole), /Step 2: business-analyst/);
     assert.match(textOf(nextRole), /"role_context"/);
+    assert.match(textOf(nextRole), /## Git Commit/);
   } finally {
     await rm(projectPath, { recursive: true, force: true });
   }
@@ -228,6 +231,8 @@ test('forge_reject_handoff returns accepted handoff to sender', async () => {
     assert.match(rejectedText, /Run Status: awaiting_role_output/);
     assert.match(rejectedText, /Step 2: context-router/);
     assert.match(rejectedText, /"active_role": "context-router"/);
+    assert.match(rejectedText, /## Git Commit/);
+    assert.match(rejectedText, /Committed: [0-9a-f]{40}/);
   } finally {
     await rm(projectPath, { recursive: true, force: true });
   }
