@@ -45,7 +45,7 @@ Keep real tracker checks outside the default regression path and guard them agai
 - [x] The default mocked board suite remains independent of network access.
 - [x] No live-board code path persists `TASK_SOURCE_TOKEN` into run artifacts or test output.
 
-## Phase 3: Docs & Cleanup
+## Phase 3: Docs & Cleanup <!-- checkpoint:867db24 -->
 
 Make the testing model visible so future agents and humans do not debug the wrong layer.
 
