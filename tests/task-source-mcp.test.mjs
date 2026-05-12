@@ -312,6 +312,16 @@ test('forge_run_task starts a run from a mocked GitLab task and status shows boa
 
     await callTool('forge_approve', { projectPath, runId, humanApproval: 'approve' });
     assert.deepEqual(issueLabels, ['forge', 'forge:waiting-role', 'forge-role:business-analyst']);
+    await callTool('forge_reject_handoff', {
+      projectPath,
+      runId,
+      instructions: 'Business analyst needs narrower routing scope.'
+    });
+    assert.deepEqual(issueLabels, ['forge', 'forge:running', 'forge-role:context-router']);
+    await callTool('forge_submit_step', { projectPath, runId, stepOutput: validRouterStep() });
+    assert.deepEqual(issueLabels, ['forge', 'forge:waiting-approval', 'forge-role:context-router']);
+    await callTool('forge_approve', { projectPath, runId, humanApproval: 'approve' });
+    assert.deepEqual(issueLabels, ['forge', 'forge:waiting-role', 'forge-role:business-analyst']);
     await callTool('forge_continue', { projectPath, runId });
     assert.deepEqual(issueLabels, ['forge', 'forge:running', 'forge-role:business-analyst']);
     await callTool('forge_submit_step', { projectPath, runId, stepOutput: clarificationStep() });
