@@ -101,10 +101,16 @@ export async function continueRun({
     await refreshRunReadme({ run, store });
     await refreshActiveRunManifest({ run, store });
     const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
+    const gitCommit = await commitTransferState({
+      run,
+      store,
+      message: `forge: start ${run.current_role} for ${run.run_id}`
+    });
     return {
       run,
       rolePacket: await buildPacketForRun({ run, store }),
       status: await buildStatus({ run, store }),
+      gitCommit,
       labelSync,
       runDir: store.getRunDir(runId)
     };
