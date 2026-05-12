@@ -437,7 +437,7 @@ test('task-backed start persists retryable tracker sync failures after initial c
   }
 });
 
-test('submitStep commits pending approval while requestChanges and answerClarification stay local', async () => {
+test('submitStep, requestChanges, and answerClarification commit transfer state', async () => {
   const projectPath = await mkdtemp(path.join(os.tmpdir(), 'forge-runner-'));
   try {
     await initRepo(projectPath);
@@ -447,15 +447,16 @@ test('submitStep commits pending approval while requestChanges and answerClarifi
     assert.equal(submitted.gitCommit.committed, true);
     const commitsAfterSubmit = await commitCount(projectPath);
     assert.equal(commitsAfterSubmit, commitsAfterStart + 1);
-    await requestChanges({
+    const revised = await requestChanges({
       projectPath,
       runId: started.run.run_id,
       instructions: 'Choose the analyst explicitly.'
     });
+    assert.equal(revised.gitCommit.committed, true);
+    const commitsAfterRevision = await commitCount(projectPath);
+    assert.equal(commitsAfterRevision, commitsAfterSubmit + 1);
 
-    assert.equal(await commitCount(projectPath), commitsAfterSubmit);
-
-    await submitStep({
+    const clarificationSubmitted = await submitStep({
       projectPath,
       runId: started.run.run_id,
       stepOutput: {
@@ -470,16 +471,18 @@ test('submitStep commits pending approval while requestChanges and answerClarifi
         }
       }
     });
+    assert.equal(clarificationSubmitted.gitCommit.committed, true);
     await approveStep({ projectPath, runId: started.run.run_id });
     const commitsAfterApproval = await commitCount(projectPath);
-    assert.equal(commitsAfterApproval, commitsAfterStart + 3);
+    assert.equal(commitsAfterApproval, commitsAfterStart + 4);
 
-    await answerClarification({
+    const answered = await answerClarification({
       projectPath,
       runId: started.run.run_id,
       answersText: 'Use frontend filters.'
     });
-    assert.equal(await commitCount(projectPath), commitsAfterApproval);
+    assert.equal(answered.gitCommit.committed, true);
+    assert.equal(await commitCount(projectPath), commitsAfterApproval + 1);
   } finally {
     await rm(projectPath, { recursive: true, force: true });
   }

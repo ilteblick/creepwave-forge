@@ -169,6 +169,7 @@ export async function submitStep({
   run.pending_handoff_path = store.toRunRelativePath(run.run_id, handoffPath);
   await store.saveRun(run);
   await refreshRunReadme({ run, store });
+  await refreshActiveRunManifest({ run, store });
   const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
   const gitCommit = await commitTransferState({
     run,
@@ -259,11 +260,18 @@ export async function requestChanges({
   run.status = 'awaiting_role_output';
   await store.saveRun(run);
   await refreshRunReadme({ run, store });
+  await refreshActiveRunManifest({ run, store });
   const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
+  const gitCommit = await commitTransferState({
+    run,
+    store,
+    message: `forge: request changes for step ${String(run.step_index).padStart(3, '0')} in ${run.run_id}`
+  });
 
   return {
     run,
     labelSync,
+    gitCommit,
     rolePacket: await buildPacketForRun({ run, store }),
     runDir: store.getRunDir(runId)
   };
@@ -290,11 +298,18 @@ export async function answerClarification({
   run.status = 'awaiting_role_output';
   await store.saveRun(run);
   await refreshRunReadme({ run, store });
+  await refreshActiveRunManifest({ run, store });
   const labelSync = await syncLabelsForRun({ projectPath, run, fetchImpl, store });
+  const gitCommit = await commitTransferState({
+    run,
+    store,
+    message: `forge: answer clarification for ${run.run_id}`
+  });
 
   return {
     run,
     labelSync,
+    gitCommit,
     rolePacket: await buildPacketForRun({ run, store }),
     runDir: store.getRunDir(runId)
   };
