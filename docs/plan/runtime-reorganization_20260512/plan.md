@@ -68,7 +68,7 @@ Update project documentation and remove refactor debris.
 ### Tasks
 
 - [x] Task 4.1: Update `README.md` Repository Shape so `runtime/` describes `core/`, `runs/`, `tasks/`, `context/`, `git/`, `runner/`, and the public `forge-runner.mjs` facade. <!-- sha:048cac1 -->
-- [~] Task 4.2: Update any README sections that reference direct runtime file paths such as `runtime/forge-board-labels.mjs`, `runtime/task-source-config.mjs`, or `runtime/task-source-gitlab.mjs` if those references should now point to subdirectories.
+- [x] Task 4.2: Update any README sections that reference direct runtime file paths such as `runtime/forge-board-labels.mjs`, `runtime/task-source-config.mjs`, or `runtime/task-source-gitlab.mjs` if those references should now point to subdirectories. <!-- sha:7e4656c -->
 - [ ] Task 4.3: Remove unused imports, stale compatibility shims that are not needed, and any temporary notes introduced during the refactor.
 
 ### Verification
