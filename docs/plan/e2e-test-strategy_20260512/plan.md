@@ -37,13 +37,13 @@ Keep real tracker checks outside the default regression path and guard them agai
 
 - [x] Task 2.1: Decide whether `test:board:live` should be documentation-only for now or backed by a small guarded test file such as `tests/task-source-live-smoke.test.mjs`. <!-- sha:22c5d11 -->
 - [x] Task 2.2: If a live smoke test is added, require explicit environment prerequisites before any Forge run is created, using existing `.env.forge`/GitLab conventions from `runtime/task-source-config.mjs` and `runtime/task-source-gitlab.mjs`. <!-- sha:22c5d11 -->
-- [ ] Task 2.3: Ensure the live smoke path only verifies connectivity, task readability, required marker label behavior, and fail-fast diagnostics; it must not be part of `npm.cmd test`.
+- [x] Task 2.3: Ensure the live smoke path only verifies connectivity, task readability, required marker label behavior, and fail-fast diagnostics; it must not be part of `npm.cmd test`. <!-- sha:22c5d11 -->
 
 ### Verification
 
-- [ ] Running the live smoke command without prerequisites exits with clear skip or missing-config guidance.
-- [ ] The default mocked board suite remains independent of network access.
-- [ ] No live-board code path persists `TASK_SOURCE_TOKEN` into run artifacts or test output.
+- [x] Running the live smoke command without prerequisites exits with clear skip or missing-config guidance.
+- [x] The default mocked board suite remains independent of network access.
+- [x] No live-board code path persists `TASK_SOURCE_TOKEN` into run artifacts or test output.
 
 ## Phase 3: Docs & Cleanup
 
