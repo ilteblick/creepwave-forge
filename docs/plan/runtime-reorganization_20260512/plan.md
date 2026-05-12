@@ -45,7 +45,7 @@ Reduce `runtime/forge-runner.mjs` by extracting internal workflow slices while k
 - [x] Run `node --test tests/mcp-server.test.mjs tests/task-source-mcp.test.mjs`.
 - [x] Compare the exported names from `runtime/forge-runner.mjs` before and after decomposition using `rg "^export async function|^export function" runtime/forge-runner.mjs`.
 
-## Phase 3: Import Hygiene And Regression Guardrails
+## Phase 3: Import Hygiene And Regression Guardrails <!-- checkpoint:57bb7dd -->
 
 Tighten import conventions after the physical reorganization.
 
