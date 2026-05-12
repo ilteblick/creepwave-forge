@@ -3,7 +3,7 @@
 **Track ID:** handoff-commit-policy_20260512
 **Spec:** [spec.md](./spec.md)
 **Created:** 2026-05-12
-**Status:** [ ] Not Started
+**Status:** [x] Complete
 
 ## Overview
 
@@ -72,10 +72,10 @@ Tighten edge cases and remove obsolete guidance.
 
 ## Final Verification
 
-- [ ] All acceptance criteria from `spec.md` are met.
-- [ ] Full test suite passes.
-- [ ] README matches the actual command behavior.
-- [ ] GitLab task-backed happy path can be described without requiring manual `forge_publish`.
+- [x] All acceptance criteria from `spec.md` are met.
+- [x] Full test suite passes.
+- [x] README matches the actual command behavior.
+- [x] GitLab task-backed happy path can be described without requiring manual `forge_publish`.
 
 ## Context Handoff
 

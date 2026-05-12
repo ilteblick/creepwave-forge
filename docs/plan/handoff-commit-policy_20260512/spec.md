@@ -3,7 +3,7 @@
 **Track ID:** handoff-commit-policy_20260512
 **Type:** Feature
 **Created:** 2026-05-12
-**Status:** Draft
+**Status:** Complete
 
 ## Summary
 
@@ -13,14 +13,14 @@ This track makes transfer boundaries explicit and durable. Every command that cr
 
 ## Acceptance Criteria
 
-- [ ] `forge_submit_step` persists the pending role output, updates task labels to `forge:waiting-approval`, and commits the pending approval state when git is available.
-- [ ] `forge_continue` from `awaiting_role_acceptance` starts the receiving role, updates labels to `forge:running`, and commits that role-acceptance/start state.
-- [ ] `forge_request_changes` records human revision feedback, updates labels to `forge:running`, and commits the revision request state.
-- [ ] `forge_answer` records clarification answers, updates labels to `forge:running`, and commits the answered-clarification state.
-- [ ] A receiving role can reject an approved handoff while the run is in `awaiting_role_acceptance`; the run returns to the sending role with a persisted revision/return artifact, updated labels, and a commit.
-- [ ] `forge_publish` remains available but becomes an explicit retry/manual publishing tool rather than a required normal workflow step.
-- [ ] MCP output and README text clearly state which human commands are allowed per status and that normal transfer state changes are auto-committed.
-- [ ] Runtime, MCP, git, and task-label tests cover all transfer commands, including non-git skip behavior and GitLab sync failure recording without losing the commit invariant where possible.
+- [x] `forge_submit_step` persists the pending role output, updates task labels to `forge:waiting-approval`, and commits the pending approval state when git is available.
+- [x] `forge_continue` from `awaiting_role_acceptance` starts the receiving role, updates labels to `forge:running`, and commits that role-acceptance/start state.
+- [x] `forge_request_changes` records human revision feedback, updates labels to `forge:running`, and commits the revision request state.
+- [x] `forge_answer` records clarification answers, updates labels to `forge:running`, and commits the answered-clarification state.
+- [x] A receiving role can reject an approved handoff while the run is in `awaiting_role_acceptance`; the run returns to the sending role with a persisted revision/return artifact, updated labels, and a commit.
+- [x] `forge_publish` remains available but becomes an explicit retry/manual publishing tool rather than a required normal workflow step.
+- [x] MCP output and README text clearly state which human commands are allowed per status and that normal transfer state changes are auto-committed.
+- [x] Runtime, MCP, git, and task-label tests cover all transfer commands, including non-git skip behavior and GitLab sync failure recording without losing the commit invariant where possible.
 
 ## Dependencies
 
