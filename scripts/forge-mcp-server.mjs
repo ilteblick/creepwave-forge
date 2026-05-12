@@ -549,7 +549,7 @@ function formatAcceptedHandoffResult({ run, stepOutput, labelSync, runDir }) {
     '',
     '### Required Next Action',
     '',
-    `The previous role output is approved. The next role must inspect the accepted handoff, then call forge_continue with runId "${run.run_id}" to start its role packet.`
+    `The previous role output is approved. The next role must inspect the accepted handoff, then call forge_continue with runId "${run.run_id}" to start its role packet or forge_reject_handoff to return it before starting.`
   ].join('\n');
 }
 

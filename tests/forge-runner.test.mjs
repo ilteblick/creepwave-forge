@@ -339,7 +339,7 @@ test('role acceptance waits for continue without allowing submit', async () => {
 
     const status = await getStatus({ projectPath, runId: started.run.run_id });
 
-    assert.deepEqual(status.nextAllowedActions, ['forge_continue']);
+    assert.deepEqual(status.nextAllowedActions, ['forge_continue', 'forge_reject_handoff']);
   } finally {
     await rm(projectPath, { recursive: true, force: true });
   }

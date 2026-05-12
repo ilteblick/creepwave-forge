@@ -705,7 +705,7 @@ function nextAllowedActions(run) {
     return ['forge_continue', 'forge_submit_step'];
   }
   if (run.status === 'awaiting_role_acceptance') {
-    return ['forge_continue'];
+    return ['forge_continue', 'forge_reject_handoff'];
   }
   if (run.status === 'awaiting_approval') {
     return ['forge_approve', 'forge_request_changes'];
