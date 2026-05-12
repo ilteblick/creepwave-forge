@@ -4,8 +4,8 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
-import { ArtifactStore, addArtifactToHandoff } from '../runtime/artifact-store.mjs';
-import { RunStore } from '../runtime/run-store.mjs';
+import { ArtifactStore, addArtifactToHandoff } from '../runtime/runs/artifact-store.mjs';
+import { RunStore } from '../runtime/runs/run-store.mjs';
 
 test('persists role artifact markdown and metadata', async () => {
   const projectRoot = await mkdtemp(path.join(os.tmpdir(), 'forge-artifact-store-'));

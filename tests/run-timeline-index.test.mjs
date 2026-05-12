@@ -9,7 +9,7 @@ import {
   buildStepMirrorFiles,
   renderRunReadme,
   writeTimelineMirror
-} from '../runtime/run-timeline-index.mjs';
+} from '../runtime/runs/run-timeline-index.mjs';
 
 test('buildRunTimeline reads canonical run record buckets through RunStore.listFiles', async () => {
   const calls = [];

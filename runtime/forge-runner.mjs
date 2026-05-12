@@ -3,8 +3,8 @@ import path from 'node:path';
 
 import { loadRuntimeContracts } from './contract-loader.mjs';
 import { loadProjectContext } from './project-context-loader.mjs';
-import { RunStore } from './run-store.mjs';
-import { ArtifactStore, addArtifactToHandoff } from './artifact-store.mjs';
+import { RunStore } from './runs/run-store.mjs';
+import { ArtifactStore, addArtifactToHandoff } from './runs/artifact-store.mjs';
 import { buildRolePacket } from './prompt-builder.mjs';
 import { loadSkillRegistry } from './skill-registry.mjs';
 import { validateStepOutput } from './step-validator.mjs';
@@ -12,7 +12,7 @@ import { assertTransitionAllowed } from './transition-policy.mjs';
 import { fetchTaskFromSource } from './task-source-client.mjs';
 import { preflightTaskLabelSync, syncTaskLabels } from './task-label-sync.mjs';
 import { buildTaskPrompt } from './task-prompt-builder.mjs';
-import { buildRunTimeline, renderRunReadme, writeTimelineMirror } from './run-timeline-index.mjs';
+import { buildRunTimeline, renderRunReadme, writeTimelineMirror } from './runs/run-timeline-index.mjs';
 import {
   commitScopedPaths,
   createAndCheckoutBranch,

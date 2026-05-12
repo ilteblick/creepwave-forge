@@ -4,7 +4,7 @@ import { mkdtemp, readFile, rm, stat } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
-import { RunStore } from '../runtime/run-store.mjs';
+import { RunStore } from '../runtime/runs/run-store.mjs';
 
 test('creates project-scoped run layout with context-router as current role', async () => {
   const projectRoot = await mkdtemp(path.join(os.tmpdir(), 'forge-run-store-'));
