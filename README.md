@@ -263,3 +263,14 @@ npm.cmd run test:contracts -- --test-reporter=dot
 npm.cmd run test:runtime -- --test-reporter=dot
 npm.cmd run test:e2e -- --test-reporter=dot
 ```
+
+Live board smoke is opt-in. Use it only against a prepared non-production GitLab issue with the exact `forge` marker label and a project-local `.env.forge` containing a read-capable token:
+
+```powershell
+$env:FORGE_LIVE_BOARD_SMOKE = "1"
+$env:FORGE_LIVE_PROJECT_PATH = "C:\path\to\target-project"
+$env:FORGE_LIVE_TASK_ID = "#123"
+npm.cmd run test:board:live -- --test-reporter=dot
+```
+
+The live smoke reads `.env.forge`, fetches the GitLab issue, and verifies the task is readable and marked for Forge. It does not start a Forge run, create branches, write labels, or create local run state.
