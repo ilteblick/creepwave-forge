@@ -368,6 +368,9 @@ test('approveStep commits forge state in git worktrees', async () => {
 
     const continued = await continueRun({ projectPath, runId: started.run.run_id });
     const manifest = JSON.parse(await readFile(path.join(projectPath, 'forge', 'active-run.json'), 'utf8'));
+    assert.equal(continued.gitCommit.committed, true);
+    assert.match(continued.gitCommit.commit, /^[0-9a-f]{7,40}$/);
+    assert.equal(await git(projectPath, ['log', '-1', '--pretty=%s']), `forge: start business-analyst for ${started.run.run_id}\n`);
     assert.equal(continued.run.status, 'awaiting_role_output');
     assert.equal(continued.rolePacket.active_role, 'business-analyst');
     assert.equal(manifest.status, 'awaiting_role_output');
@@ -483,6 +486,57 @@ test('submitStep, requestChanges, and answerClarification commit transfer state'
     });
     assert.equal(answered.gitCommit.committed, true);
     assert.equal(await commitCount(projectPath), commitsAfterApproval + 1);
+  } finally {
+    await rm(projectPath, { recursive: true, force: true });
+  }
+});
+
+test('transfer state commits are skipped outside git worktrees', async () => {
+  const projectPath = await mkdtemp(path.join(os.tmpdir(), 'forge-runner-non-git-'));
+  try {
+    const started = await startRun({ projectPath, userPrompt: 'Build filters' });
+    const submitted = await submitStep({ projectPath, runId: started.run.run_id, stepOutput: stepOutput() });
+    assert.equal(submitted.gitCommit.skipped, true);
+    assert.equal(submitted.gitCommit.reason, 'not_git_worktree');
+
+    const revised = await requestChanges({
+      projectPath,
+      runId: started.run.run_id,
+      instructions: 'Choose the analyst explicitly.'
+    });
+    assert.equal(revised.gitCommit.skipped, true);
+    assert.equal(revised.gitCommit.reason, 'not_git_worktree');
+
+    const handoffSubmitted = await submitStep({ projectPath, runId: started.run.run_id, stepOutput: stepOutput() });
+    assert.equal(handoffSubmitted.gitCommit.skipped, true);
+    await approveStep({ projectPath, runId: started.run.run_id });
+    const continued = await continueRun({ projectPath, runId: started.run.run_id });
+    assert.equal(continued.gitCommit.skipped, true);
+    assert.equal(continued.gitCommit.reason, 'not_git_worktree');
+
+    await submitStep({
+      projectPath,
+      runId: started.run.run_id,
+      stepOutput: {
+        ...stepOutput({ role: 'business-analyst', target: 'business-analyst', transitionType: 'clarification_request', status: 'needs_clarification' }),
+        transition: {
+          type: 'clarification_request',
+          questions: ['Which area?']
+        },
+        handoff: {
+          ...handoff({ source: 'business-analyst', target: 'business-analyst' }),
+          open_questions: ['Which area?']
+        }
+      }
+    });
+    await approveStep({ projectPath, runId: started.run.run_id });
+    const answered = await answerClarification({
+      projectPath,
+      runId: started.run.run_id,
+      answersText: 'Use frontend filters.'
+    });
+    assert.equal(answered.gitCommit.skipped, true);
+    assert.equal(answered.gitCommit.reason, 'not_git_worktree');
   } finally {
     await rm(projectPath, { recursive: true, force: true });
   }
