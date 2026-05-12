@@ -426,7 +426,7 @@ function requireObject(value, field) {
   return value;
 }
 
-function formatRolePacketResult(title, { run, rolePacket, runDir, labelSync }) {
+function formatRolePacketResult(title, { run, rolePacket, runDir, labelSync, gitCommit }) {
   const lines = [
     `# ${title}`,
     '',
@@ -451,6 +451,7 @@ function formatRolePacketResult(title, { run, rolePacket, runDir, labelSync }) {
   ];
 
   lines.push(...formatLabelSyncSection(labelSync), '');
+  lines.push(...formatGitCommitSection(gitCommit), '');
 
   lines.push(
     '### Required Next Action',
@@ -475,7 +476,7 @@ function formatTaskRolePacketResult(title, result) {
   ].join('\n');
 }
 
-function formatSubmitResult({ run, stepOutput, labelSync, runDir }) {
+function formatSubmitResult({ run, stepOutput, labelSync, gitCommit, runDir }) {
   const lines = [
     '# Forge Step Submitted',
     '',
@@ -498,6 +499,7 @@ function formatSubmitResult({ run, stepOutput, labelSync, runDir }) {
   ];
 
   lines.push(...formatLabelSyncSection(labelSync), '');
+  lines.push(...formatGitCommitSection(gitCommit), '');
 
   lines.push(
     'Human-only next actions:',
@@ -672,6 +674,28 @@ function formatPublishResult({ run, gitCommit, labelSync, runDir }) {
   }
 
   return lines.join('\n');
+}
+
+function formatGitCommitSection(gitCommit) {
+  if (!gitCommit) {
+    return [
+      '## Git Commit',
+      '',
+      'Not available.'
+    ];
+  }
+  if (gitCommit.committed) {
+    return [
+      '## Git Commit',
+      '',
+      `Committed: ${gitCommit.commit}`
+    ];
+  }
+  return [
+    '## Git Commit',
+    '',
+    `Skipped: ${gitCommit.reason}`
+  ];
 }
 
 function formatSyncTaskResult({ run, labelSync, runDir }) {

@@ -47,7 +47,7 @@ Make the command surface impossible to misread during operator handoff.
 
 ### Tasks
 
-- [ ] Task 3.1: Update `scripts/forge-mcp-server.mjs` formatters so `forge_submit_step`, `forge_continue`, `forge_request_changes`, `forge_answer`, and receiver rejection output show commit status and tracker sync status.
+- [~] Task 3.1: Update `scripts/forge-mcp-server.mjs` formatters so `forge_submit_step`, `forge_continue`, `forge_request_changes`, `forge_answer`, and receiver rejection output show commit status and tracker sync status.
 - [ ] Task 3.2: Update `README.md` Human Approval Workflow, Git Handoff MVP, Revision Workflow, and Clarification Workflow sections to describe the new auto-commit invariant.
 - [ ] Task 3.3: Update `README.md` status/command table to list every human command per run status: `forge_approve`, `forge_request_changes`, `forge_continue`, receiver rejection, `forge_answer`, `forge_publish`, `forge_sync_task`, and `forge_status`.
 - [ ] Task 3.4: Add or adjust MCP snapshot-style assertions in `tests/mcp-server.test.mjs` so command output mentions commits and does not instruct manual `forge_publish` for the normal path.
