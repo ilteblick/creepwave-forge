@@ -229,20 +229,30 @@ Roles can consult each other without permanently transferring ownership.
 
 ## Development
 
-Run tests:
+Run the full local regression suite:
 
 ```powershell
 npm.cmd test -- --test-reporter=dot
 ```
 
-Run contract tests:
+On Windows PowerShell, prefer `npm.cmd` for project scripts. A plain `npm test` can fail before Node starts when local execution policy blocks `npm.ps1`; that is an environment issue, not a Forge test failure.
+
+Named test layers:
+
+| Command | Purpose |
+| --- | --- |
+| `npm.cmd test` | Full local regression across all Node test files. |
+| `npm.cmd run test:contracts` | Runtime contract schema validation only. |
+| `npm.cmd run test:core` | Deterministic contract, runtime, git workflow, context, prompt, and transition checks. |
+| `npm.cmd run test:runtime` | Runtime workflow checks without MCP or task-board suites. |
+| `npm.cmd run test:mcp` | Public MCP tool behavior and formatting checks. |
+| `npm.cmd run test:board:mock` | Mocked task-board and GitLab behavior, including labels, timeouts, token redaction, and retry sync. |
+| `npm.cmd run test:e2e` | Deterministic Forge workflow e2e through runner, MCP, and mocked task-source paths. |
+
+Examples:
 
 ```powershell
 npm.cmd run test:contracts -- --test-reporter=dot
-```
-
-Run runtime/MCP tests:
-
-```powershell
 npm.cmd run test:runtime -- --test-reporter=dot
+npm.cmd run test:e2e -- --test-reporter=dot
 ```
