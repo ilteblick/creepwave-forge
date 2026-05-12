@@ -8,6 +8,7 @@ import {
   continueRun,
   getStatus,
   publishRunState,
+  rejectHandoff,
   requestChanges,
   startRun,
   startRunFromTask,
@@ -148,6 +149,29 @@ export const toolDefinitions = [
         instructions: {
           type: 'string',
           description: 'Human revision instructions for the current role.'
+        }
+      }
+    }
+  },
+  {
+    name: 'forge_reject_handoff',
+    description: 'Reject an approved handoff before the receiving role starts work, returning the run to the sending role with revision instructions. Resolves runId from forge/active-run.json when omitted.',
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['projectPath', 'instructions'],
+      properties: {
+        runId: {
+          type: 'string',
+          description: 'Run id returned by forge_run. Optional when forge/active-run.json exists in the current branch.'
+        },
+        projectPath: {
+          type: 'string',
+          description: 'Absolute project root path for the project-scoped run.'
+        },
+        instructions: {
+          type: 'string',
+          description: 'Receiver-side rejection instructions explaining why the accepted handoff is being returned.'
         }
       }
     }
@@ -322,6 +346,15 @@ export async function callTool(name, args = {}) {
       instructions: requireString(args.instructions, 'instructions')
     });
     return textResult(formatRolePacketResult('Forge Changes Requested', result));
+  }
+
+  if (name === 'forge_reject_handoff') {
+    const result = await rejectHandoff({
+      projectPath: requireString(args.projectPath, 'projectPath'),
+      runId: optionalString(args.runId, 'runId'),
+      instructions: requireString(args.instructions, 'instructions')
+    });
+    return textResult(formatRolePacketResult('Forge Handoff Rejected', result));
   }
 
   if (name === 'forge_answer') {
