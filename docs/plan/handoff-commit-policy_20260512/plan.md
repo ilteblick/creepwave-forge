@@ -41,7 +41,7 @@ Add a first-class way for the next role to reject an accepted handoff before sta
 
 - [x] `npm.cmd test -- tests/forge-runner.test.mjs tests/mcp-server.test.mjs tests/task-source-mcp.test.mjs`
 
-## Phase 3: MCP Output And Docs
+## Phase 3: MCP Output And Docs <!-- checkpoint:8a8a588 -->
 
 Make the command surface impossible to misread during operator handoff.
 
