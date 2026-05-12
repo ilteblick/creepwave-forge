@@ -29,7 +29,7 @@ Classify the current test files and make the command surface match how failures 
 - [x] `npm.cmd run test:e2e` passes.
 - [x] `npm.cmd test` passes.
 
-## Phase 2: Live Board Boundary
+## Phase 2: Live Board Boundary <!-- checkpoint:31d351e -->
 
 Keep real tracker checks outside the default regression path and guard them against accidental side effects.
 
