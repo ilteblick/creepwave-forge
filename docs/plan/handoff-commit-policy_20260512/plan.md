@@ -32,7 +32,7 @@ Add a first-class way for the next role to reject an accepted handoff before sta
 ### Tasks
 
 - [x] Task 2.1: Define the receiver rejection behavior in `runtime/forge-runner.mjs`: valid only in `awaiting_role_acceptance`, requires instructions, returns to the previous/sending role, stores a revision/return artifact, clears receiver wait state, syncs labels, and commits. <!-- sha:eac34ad -->
-- [~] Task 2.2: Add an MCP tool in `scripts/forge-mcp-server.mjs`, for example `forge_reject_handoff`, with required `projectPath` and `instructions`, resolving `runId` from `forge/active-run.json`.
+- [x] Task 2.2: Add an MCP tool in `scripts/forge-mcp-server.mjs`, for example `forge_reject_handoff`, with required `projectPath` and `instructions`, resolving `runId` from `forge/active-run.json`. <!-- sha:acf0757 -->
 - [ ] Task 2.3: Update `nextAllowedActions()` in `runtime/forge-runner.mjs` and status formatting in `scripts/forge-mcp-server.mjs` so `awaiting_role_acceptance` shows both `forge_continue` and the rejection command.
 - [ ] Task 2.4: Add tests in `tests/forge-runner.test.mjs` and `tests/mcp-server.test.mjs` for receiver rejection, invalid-status rejection, commit creation, and returned role packet for the sending role.
 - [ ] Task 2.5: Add task-backed label tests in `tests/task-source-mcp.test.mjs` proving receiver rejection updates the issue from `forge:waiting-role` back to `forge:running` with the sending role label.
