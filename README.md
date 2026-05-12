@@ -157,7 +157,7 @@ runtime/tool error                -> forge:failed
 
 ## Human Approval Workflow
 
-`forge_submit_step` never advances the run by itself. It stores the role output, saves the role artifact, records the outgoing handoff, and moves the run to `awaiting_approval`.
+`forge_submit_step` never applies the role transition by itself. It stores the role output, saves the role artifact, records the outgoing handoff, moves the run to `awaiting_approval`, synchronizes task labels, and commits the pending approval state when git is available.
 
 While approval is pending, the human chooses one path:
 
@@ -167,22 +167,24 @@ While approval is pending, the human chooses one path:
 
 Codex must stop after `forge_submit_step` reports `awaiting_approval`. It must not call `forge_approve` from its own judgment. The MCP `forge_approve` tool requires `humanApproval`, which must be copied from an explicit human approval message such as "approve", "продолжай", or "апрув".
 
-For non-terminal handoff, consultation request, and consultation response transitions, `forge_approve` accepts the previous role output and moves the run to `awaiting_role_acceptance`. No role packet is returned from approval. The receiving role must inspect the accepted handoff and call `forge_continue`; only then does Forge move to `awaiting_role_output` and return the executable role packet.
+For non-terminal handoff, consultation request, and consultation response transitions, `forge_approve` accepts the previous role output and moves the run to `awaiting_role_acceptance`. No role packet is returned from approval. The receiving role must inspect the accepted handoff and either call `forge_continue` to start work or `forge_reject_handoff` to return it to the sending role before starting. Both paths synchronize labels and commit the resulting transfer state when git is available.
 
 For clarification, completion, or blocked transitions, `forge_approve` moves directly to `needs_clarification`, `complete`, or `blocked`.
 
 ## Git Handoff MVP
 
-Forge keeps local review loops quiet and commits only accepted or explicitly published run state.
+Forge commits every normal transfer state so another Codex window or device can pull the branch and see the latest action required.
 
 - In a git worktree, `forge_run` creates and checks out one branch per run using `forge/run/<slug>-<runId>`.
 - `forge_run_task` uses the task identity for that slug: `forge/run/task-<taskId>-<task-title>-<runId>`, for example `forge/run/task-123-add-export-20260511123000-a1b2c3`.
 - The generated branch name includes the run ID, so the git branch and Forge run are directly linked.
 - `forge_run` writes `forge/active-run.json` and creates an initial scoped Forge-state commit on that branch.
+- `forge_submit_step` commits the `awaiting_approval` state after persisting the pending role output.
 - `forge_approve` accepts the approved output, refreshes `forge/active-run.json`, stages `forge/active-run.json` and `forge/runs/<runId>/`, and creates a scoped git commit when the project path is inside a git worktree. Non-terminal handoffs commit the `awaiting_role_acceptance` state.
-- `forge_continue` from `awaiting_role_acceptance` records that the receiving role has started, refreshes `forge/active-run.json`, and returns the next role packet.
-- `forge_request_changes` and `forge_answer` update local run files but do not create git commits by default.
-- `forge_publish` commits the current run state without approving or changing workflow state. Use it when pending approval, revision feedback, or clarification state must be transferred to another device through git.
+- `forge_continue` from `awaiting_role_acceptance` records that the receiving role has started, refreshes `forge/active-run.json`, commits the `awaiting_role_output` state, and returns the next role packet.
+- `forge_reject_handoff` returns an accepted handoff to the sending role, stores revision instructions, refreshes `forge/active-run.json`, commits the resumed sending-role state, and returns the sending role packet.
+- `forge_request_changes` and `forge_answer` update run files, synchronize labels, commit the resumed-work state, and return the active role packet.
+- `forge_publish` commits the current run state without approving or changing workflow state. It remains available for manual retries or unusual transfer needs, but it is not required for the normal submit/approve/continue/revision/clarification path.
 - Non-git project paths keep working; git publishing is skipped instead of failing the Forge workflow.
 
 The active-run manifest is branch-local:
@@ -191,21 +193,21 @@ The active-run manifest is branch-local:
 <projectRoot>/forge/active-run.json
 ```
 
-A second Codex window or another device can pull the branch, read that manifest, recover the `run_id`, and call `forge_status`, `forge_continue`, `forge_submit_step`, `forge_approve`, `forge_request_changes`, `forge_answer`, or `forge_publish` against the same run without passing `runId`. Passing `runId` explicitly remains supported.
+A second Codex window or another device can pull the branch, read that manifest, recover the `run_id`, and call `forge_status`, `forge_continue`, `forge_reject_handoff`, `forge_submit_step`, `forge_approve`, `forge_request_changes`, `forge_answer`, or `forge_publish` against the same run without passing `runId`. Passing `runId` explicitly remains supported.
 
 Approval commits include only Forge run state by default. Source-code changes from role work remain a separate commit policy decision.
 
 ## Revision Workflow
 
-When the human requests changes, Forge stores a `revision-request` artifact, clears the pending approval, keeps the same active role, and builds the next role packet with the revision instructions included.
+When the human requests changes, Forge stores a `revision-request` artifact, clears the pending approval, keeps the same active role, commits the resumed-work state, and builds the next role packet with the revision instructions included.
 
-This supports feedback like "rewrite the spec", "make the design denser", or "route this to architect instead".
+This supports feedback like "rewrite the spec", "make the design denser", or "route this to architect instead". A receiving role can also return an accepted handoff before starting with `forge_reject_handoff`; Forge records that as revision feedback for the sending role and commits the return.
 
 ## Clarification Workflow
 
 A role can return `status: "needs_clarification"` with `transition.type: "clarification_request"`.
 
-After human approval, the run waits in `needs_clarification`. The human answers with `forge_answer`; Forge stores the answer under `clarifications/` and returns the same role as the next active role.
+After human approval, the run waits in `needs_clarification`. The human answers with `forge_answer`; Forge stores the answer under `clarifications/`, commits the resumed-work state, and returns the same role as the next active role.
 
 ## Consultation Workflow
 
